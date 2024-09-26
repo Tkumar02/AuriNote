@@ -1,0 +1,7 @@
+.sign-out{
+    cursor: pointer;
+} 
+
+.sign-out:hover{
+    background-color: red;
+}

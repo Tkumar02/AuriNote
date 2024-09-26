@@ -1,0 +1,113 @@
+<div class="main-container">
+    <h1 class="text-white">Create Invoice</h1>
+    <form class="main-form" (ngSubmit)="submitInvoice()">
+        <div>
+            <h4> Client Details</h4> 
+            <p>(e.g. name and address)</p>
+            <textarea type="text" id="clientName" [(ngModel)]="clientName" name="clientName"></textarea>
+        </div>
+        <div class="headingDetails d-flex p-5 align-items-start">
+            
+            <div>
+                <h4>Invoice Number</h4> 
+                <input type="text" id="clientName" [(ngModel)]="invoiceNumber" name="invoiceNumber">
+            </div>
+            <div>
+                <h4>Issue Date</h4>
+                <input type="date" id="date" [(ngModel)]="date" name="date">
+            </div>
+            <div>
+                <h4>Invoice Due Date</h4>
+                <input type="date" id="date" [(ngModel)]="dateDue" name="date">
+            </div>
+        </div>
+
+        
+        <br>
+        <div class="d-flex flex-column align-items-center">
+            <h3>Items</h3>
+            <div *ngFor="let item of items let i=index">
+                <label for="description-{{i}}">Description: </label>
+                <input type="text" id="description-{{i}}" name="description-{{i}}" [(ngModel)]="item.description">
+                <label for="quantity-{{i}}">Quantity: </label>
+                <input type="number" id="quantity={{i}}" name="quantity-{{i}}" [(ngModel)]="item.quantity">
+                <label for="price-{{i}}">Price: </label>
+                <input type="number" id="price-{{i}}" name="price-{{i}}" [(ngModel)]="item.price"
+                (change)="calculateTotal()">
+            </div>
+            <button type="button" (click)="addItem()">Add Item</button>
+            <h4> Total: {{total | number:'1.2-2'}}</h4>
+        </div>
+
+        <br>
+
+        <label for="businesses">Select Business: </label>
+        <select name="businesses" id="busniess" [(ngModel)]="selectedBusiness">
+            <option selected></option>
+            <option name="selectedBusiness" [(ngModel)]="selectedBusiness">{{details.name}}</option>
+            <option name="selectedBusiness" *ngFor="let business of details.businesses" [(ngModel)]="selectedBusiness">{{business.businessName}}</option>
+        </select>
+
+        <label for="addresses">Select Address: </label>
+        <select name="addresses" id="address" [(ngModel)]="selectedAddress">
+            <option selected></option>
+            <option name="selectedAddress" [value]="details.address" selected>{{details.address}}</option>
+            <option name="selectedAddress" *ngFor="let business of details.businesses" [(ngModel)]="selectedAddress">{{business.businessAddress}}</option>
+        </select>
+
+        <label for="Banks">Select Bank: </label>
+        <select name="banks" id="bank" [(ngModel)]="selectedBank">
+            <option selected></option>
+            <option *ngFor="let bank of details.bankDetails" name="bank" [(ngModel)]="selectedBank">
+                Bank Name: {{bank.bankName}} Sort Code: {{bank.sortCode}} Account Number: {{bank.accountNumber}}
+            </option>
+            
+        </select>
+
+        <label for="notes">Notes: </label>
+        <textarea [(ngModel)]="notes" name="notes" id="notes"></textarea>
+        <button [disabled]="!invoiceNumber || !clientName || !selectedBank || !total" type="submit">Submit Invoice</button>
+    </form>
+
+    <div class="invoicePreview p-5">
+        <div class="heading">
+            <h2>Invoice</h2>
+            <div>{{selectedBusiness}}</div>
+            <div>{{selectedAddress}}</div>
+        </div>
+        <div class="client">
+            <div>Invoice addressed to: {{clientName}}</div>
+            <div>Invoice number: {{invoiceNumber}}</div>
+            <div>Issue date: {{date | date}}</div>
+        </div>
+        <div class="itemPreview">
+            <table class="table table-striped" *ngIf="items.length>1">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of items">
+                        <td *ngIf="item.description!==''">{{item.description}}</td>
+                        <td *ngIf="item.quantity>0">{{item.quantity}}</td>
+                        <td *ngIf="item.price>0">£{{item.price}}</td>
+                        <td *ngIf="item.price>0 && item.quantity>0">{{item.price * item.quantity | number:'1.2-2'}}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>Total Due: </td>
+                        <td>£{{this.total}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Invoice due by: {{dateDue | date}}</p>
+            <p>Please pay into:{{selectedBank}}</p>
+        </div>
+    </div>
+    <br>
+</div>

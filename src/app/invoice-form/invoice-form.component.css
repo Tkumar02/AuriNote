@@ -1,0 +1,179 @@
+/* .main-container{
+    background-color: gold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.invoicePreview {
+    background-color: lightblue;
+    display: flex;
+    width: 80vw;
+    flex-direction: column;
+}
+
+.heading{
+    display:flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 8px;
+}
+
+.itemPreview{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    width: 60vw;
+    background-color: lightgreen;
+    text-align: right;
+}
+
+.client{
+    padding: 8px 
+}
+
+.headingDetails{
+    gap:38px;
+} */
+
+/* Main Container Styling */
+.main-container {
+    background-color: #391328; /* Soft background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    width: 85%;
+    margin: auto;
+}
+
+/* Form Styling */
+.main-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    background-color: #c898a6; /* White background for clarity */
+    border-radius: 10px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.main-form div {
+    margin-bottom: 20px; /* Spacing between form sections */
+}
+
+.main-form h4 {
+    color: #333333; /* Darker text for better readability */
+    margin-bottom: 5px;
+}
+
+.main-form p {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.main-form input, .main-form textarea, .main-form select {
+    width: 100%; /* Full width for input fields */
+    padding: 10px;
+    margin-top: 8px;
+    border: 1px solid #cccccc; /* Soft border */
+    border-radius: 5px;
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
+}
+
+button {
+    background-color: #007bff; /* Blue button */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button:disabled {
+    background-color: #cccccc;
+}
+
+button:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+/* Invoice Preview Styling */
+.invoicePreview {
+    background-color: #e3f2fd; /* Light blue for invoice preview */
+    display: flex;
+    width: 80vw;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 30px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+.heading {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 8px;
+}
+
+.itemPreview {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    width: 100%;
+    background-color: #c8e6c9; /* Light green background */
+    padding: 15px;
+    border-radius: 10px;
+    text-align: left;
+    margin-top: 20px;
+}
+
+.table-striped {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-striped th, .table-striped td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+.table-striped th {
+    background-color: #f1f1f1; /* Light grey for header */
+}
+
+.client {
+    padding: 8px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.client div {
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.headingDetails {
+    display: flex;
+    gap: 38px;
+    justify-content: space-between;
+    padding: 20px 0;
+    width: 100%;
+}

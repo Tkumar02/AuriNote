@@ -1,0 +1,48 @@
+
+<div class="main-container">
+    <h2>Summary Page</h2>
+    <button (click)="viewInvoices()">View Invoices</button>
+    <div>
+        <div *ngIf="showBox">No invoices at present</div>
+        <table *ngIf="invoices.length>0" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Client</th>
+                    <th>Invoice Total</th>
+                    <th>Paid</th>
+                    <th>Confirm Payment</th>
+                    <th>Edit Payment</th>
+                    <th>Completed payment</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let invoice of invoices; let i=index">
+                    <td>{{this.invoice.date}}</td>
+                    <td>{{this.invoice.clientName}}</td>
+                    <td>{{this.invoice.total | number:'1.2-2'}}</td>
+                    <td *ngIf="invoice.final==invoice.total">Yes</td>
+                    <td *ngIf="!invoice.final">Pending</td>
+                    <td *ngIf="invoice.final && invoice.final!=invoice.total">New amount paid</td>
+                    <td>
+                        <button *ngIf="!invoice.paid && !invoice.final" (click)="paymentStatus(i)">Confirm Payment</button>
+                        <button *ngIf="invoice.paid" (click)="paymentStatus(i)">Change to pending</button>
+                        <button *ngIf="invoice.final" (click)="paymentStatus(i)">Edit payment</button>
+                    </td>
+                    <td>
+                        <input *ngIf="!invoice.paid && !invoice.final" id="partialPayment" [(ngModel)]="invoice.partialPayment" type="number">
+                    </td>
+                    <td *ngIf="invoice.final">£{{invoice.final}}</td>
+                    <td *ngIf="!invoice.paid && invoice.partialPayment==0 && !invoice.final">£0</td>
+                    <td *ngIf="invoice.paid">£{{invoice.total}}</td>
+                    <td *ngIf="!invoice.paid && invoice.partialPayment>0">£{{invoice.partialPayment}}</td>
+                    <td>
+                        <textarea [(ngModel)]="invoice.notes" name="notes" id="notes">{{invoice.notes}}</textarea>
+                        <button (click)="updateInvoice(invoice)">Save and submit</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

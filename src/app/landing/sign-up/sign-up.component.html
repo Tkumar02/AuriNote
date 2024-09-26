@@ -1,0 +1,44 @@
+<div class="sign-up-container">
+    <h2>Sign Up</h2>
+  
+    <form [formGroup]="signUpForm" (ngSubmit)="onSignUp()">
+      <div>
+        <label for="email">Email:</label>
+        <input id="email" formControlName="email" type="email" placeholder="Enter your email">
+        <div *ngIf="signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched">
+          <small *ngIf="signUpForm.get('email')?.errors?.['required']">Email is required.</small>
+          <small *ngIf="signUpForm.get('email')?.errors?.['email']">Invalid email format.</small>
+        </div>
+      </div>
+  
+      <div>
+        <label for="password">Password:</label>
+        <input 
+        id="password" 
+        formControlName="password" 
+        type="password" 
+        [(ngModel)]='password'
+        placeholder="Enter your password">
+        <label for="password">Confirm Password:</label>
+        <input 
+        id="confirmPassword" 
+        formControlName="password" 
+        type="password" 
+        [(ngModel)]="confirmPassword"
+        placeholder="Confirm your password">
+        <div *ngIf="password!=confirmPassword || (signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched)">
+          <small *ngIf="signUpForm.get('password')?.errors?.['required']">Password is required.</small>
+          <small *ngIf="signUpForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters.</small>
+          <br>
+          <small *ngIf="password!=confirmPassword">Passwords do not match.</small>
+        </div>
+      </div>
+  
+      <button type="submit" [disabled]="signUpForm.invalid || password!=confirmPassword">Sign Up</button>
+  
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+    </form>
+  </div>
+  

@@ -1,0 +1,36 @@
+<div class="home-container">
+    <!-- Title showing Invoice Total -->
+    <div class="total-title">
+      <h1>Invoiced Total: £{{ totalAmount }}</h1>
+      <h2>Completed Payments Total: £{{ paidAmount }}</h2>
+    </div>
+  
+    <!-- Cards Container -->
+    <div class="card-container">
+      <!-- Summary Card -->
+      <div class="card" routerLink="/summary">
+        <h2>Summary</h2>
+      </div>
+  
+      <!-- Create Invoice Card -->
+      <div class="card" routerLink="/create">
+        <h2>Create Invoice</h2>
+      </div>
+  
+      <!-- View Invoices Card -->
+      <div class="card" routerLink="/view-invoices">
+        <h2>View Invoices</h2>
+      </div>
+  
+      <!-- Edit Details Card -->
+      <div class="card" routerLink="/edit">
+        <h2>Edit Details</h2>
+      </div>
+  
+      <!-- Add Expense Card -->
+      <div class="card" routerLink="/add-expense">
+        <h2>Add Expense</h2>
+      </div>
+    </div>
+  </div>
+  

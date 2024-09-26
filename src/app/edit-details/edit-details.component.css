@@ -1,0 +1,128 @@
+/* Style the form container */
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: lightblue;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style the form fields */
+  form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  form input[type="text"],
+  form input[type="password"],
+  form input[type="email"],
+  form input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  
+  form input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  /* Style the form buttons */
+  button[type="submit"],
+  button[type="button"] {
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  
+  /* Add spacing between the buttons */
+  button[type="button"] {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  
+  /* Style for form sections like bank details */
+  fieldset {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+  }
+  
+  legend {
+    font-size: 16px;
+    font-weight: bold;
+    color: #007bff;
+    padding: 0 5px;
+  }
+  
+  /* Style remove button inside dynamic sections */
+  .remove-btn {
+    background-color: #dc3545;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
+  .remove-btn:hover {
+    background-color: #c82333;
+  }
+  
+  /* Style for the Add Another Bank button */
+  .add-bank-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .add-bank-btn:hover {
+    background-color: #218838;
+  }
+
+  .submit-button {
+    background-color: #007bff;
+    margin-left: 25rem;
+  }
+  
+  /* Responsive design for smaller screens */
+  @media (max-width: 600px) {
+    form {
+      padding: 15px;
+    }
+  
+    button[type="submit"],
+    button[type="button"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 14px;
+    }
+  
+    form input[type="text"],
+    form input[type="password"],
+    form input[type="email"],
+    form input[type="number"] {
+      padding: 12px;
+    }
+  }
+  
+  

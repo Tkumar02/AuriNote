@@ -1,0 +1,49 @@
+/* Center everything on the page */
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Full viewport height */
+    background-color: #f9f9f9;
+  }
+  
+  /* Styling for the title at the top */
+  .total-title h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  /* Cards container layout */
+  .card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem; /* Spacing between cards */
+  }
+  
+  /* Styling for each card */
+  .card {
+    background-color: #ffffff;
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px); /* Hover effect */
+  }
+  
+  .card h2 {
+    font-size: 1.5rem;
+    color: #007bff;
+    margin: 0;
+  }
+  

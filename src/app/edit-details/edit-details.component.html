@@ -1,0 +1,65 @@
+<form [formGroup]="editDetailsForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="name">Name:</label>
+      <input [value]="profileExists ? profile.name : ''" type="text" id="name" formControlName="name" required>
+    </div>
+  
+    <div>
+      <label for="address">Home Address:</label>
+      <input [value]="profileExists ? profile.address : ''" type="text" id="address" formControlName="address" required>
+    </div>
+  
+
+    <div *ngIf="businesses.length === 0">
+        <p>No business details available. Click "Add Another Business" to start adding.</p>
+    </div>
+
+    <div class="business" *ngIf="businesses.length>0" formArrayName="businesses">
+        <div *ngFor="let business of businesses.controls; let i=index" [formGroupName]="i">
+            <fieldset>
+                <legend>Business Name {{i + 1}}</legend>
+
+                <label for="businessName{{i}}">Business Name: </label>
+                <input type="text" id="businessName{{i}}" formControlName="businessName" required>
+
+                <label for="businessAddress{{i}}">Business Address: </label>
+                <input type="text" id="businessAddress{{i}}" formControlName="businessAddress" required>
+
+                <button type="button" class="remove-btn" (click)="removeBusiness(i)">Remove</button>
+            </fieldset>
+        </div>
+    </div>
+    <button type="button" class="add-bank-btn" (click)="addBusiness()">Add Another Business</button>
+    
+    <div *ngIf="bankDetails.length === 0">
+        <p>No bank details available. Click "Add Another Bank" to start adding.</p>
+    </div>
+
+    
+    <div class="bank" *ngIf="bankDetails.length > 0" formArrayName="bankDetails">
+      <div *ngFor="let bank of bankDetails.controls; let i = index" [formGroupName]="i">
+        <fieldset>
+          <legend>Bank Details {{i + 1}}</legend>
+          
+          <label for="bankNickName{{i}}">Nickname for bank:</label>
+          <input type="text" id="nickname{{i}}" formControlName="bankNickName" required>
+
+          <label for="bankName{{i}}">Bank Name:</label>
+          <input type="text" id="bankName{{i}}" formControlName="bankName" required>
+  
+          <label for="accountNumber{{i}}">Account Number:</label>
+          <input type="number" id="accountNumber{{i}}" formControlName="accountNumber" required>
+  
+          <label for="sortCode{{i}}">Sort Code:</label>
+          <input type="text" id="sortCode{{i}}" formControlName="sortCode" required>
+  
+          <button type="button" class="remove-btn" (click)="removeBank(i)">Remove</button>
+        </fieldset>
+      </div>
+    </div>
+  
+    <button type="button" class="add-bank-btn" (click)="addBank()">Add Another Bank</button>
+    <br>
+    <button class="submit-button" type="submit">Submit</button>
+  </form>
+  
