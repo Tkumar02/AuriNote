@@ -53,7 +53,7 @@ button:hover:not(:disabled) {
 
 /* Invoice Preview Styling */
 .invoicePreview {
-    background-color: #e3f2fd;
+    background-color: #ffffff;
     display: flex;
     width: 90%; /* Adjusted width for full use of space */
     flex-direction: column;
@@ -67,7 +67,7 @@ button:hover:not(:disabled) {
 .table-striped {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin: 20px auto;
 }
 
 .table-striped th, .table-striped td {
@@ -83,6 +83,10 @@ button:hover:not(:disabled) {
 
 .table-striped td {
     background-color: #ffffff;
+}
+
+.table-striped td:empty {
+    border: none; /* Ensure empty cells do not have borders */
 }
 
 .table-striped tr:nth-child(even) td {
@@ -124,6 +128,26 @@ button:hover:not(:disabled) {
     padding: 20px 0;
     width: 100%;
     flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.fancy-text {
+    font-family: 'Lobster', cursive;
+}
+
+.justify-text {
+    text-align: space-between;
+}
+
+.text-italic {
+    font-style: italic;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.no-border {
+    border: none; /* Removes the border */
 }
 
 

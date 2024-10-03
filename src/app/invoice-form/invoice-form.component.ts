@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { InvoiceService } from '../services/invoice.service';
 import { ProfileDetailsService } from '../services/profile-details.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { ToastrService } from 'ngx-toastr';
+import html2pdf from 'html2pdf.js';
+
 
 @Component({
   selector: 'app-invoice-form',
@@ -12,24 +15,31 @@ export class InvoiceFormComponent {
   clientName: string = '';
   invoiceNumber: string = '';
   userEmail: string = '';
-  date = new Date;
+  date: any;
   dateDue= new Date;
   notes = '';
   items = [{ description:'', quantity:0, price:0}];
   total = 0;
   details: any;
+  allInvoices: any;
   selectedBusiness: string = '';
   selectedAddress: string = '';
   selectedBank: string = '';
-
+  bankName: string = '';
+  sortCode: string = '';
+  accountNumber: string = '';
+  generate: boolean = false;
+  
   constructor(
     private invoiceService:InvoiceService, 
     private afAuth: AngularFireAuth,
-    private pService: ProfileDetailsService
+    private pService: ProfileDetailsService,
+    private toast: ToastrService
   ) {}
 
   ngOnInit(): void{
     this.getCurrentUserEmail();
+    this.date = new Date().toISOString().split('T')[0];
     this.dateDue.setDate(this.date.getDate() + 14)
   }
 
@@ -54,9 +64,56 @@ export class InvoiceFormComponent {
       notes:this.notes,
       invoiceID:this.invoiceNumber};
     this.invoiceService.createInvoice(invoice).then(()=> {
-      console.log('invoice created successfully')
+      this.toast.success('Invoice successfully submitted')
     })
+    this.generate = true;
   }
+
+  onBankChange(){
+    if (this.details && this.details.bankDetails) {
+      const selectedBankObj = this.details.bankDetails.find((bank: { bankNickName: string; }) => bank.bankNickName === this.selectedBank);
+      if (selectedBankObj) {
+        this.bankName = selectedBankObj.bankName;
+        this.sortCode = selectedBankObj.sortCode;
+        this.accountNumber = selectedBankObj.accountNumber;
+      } else {
+        this.bankName = '';
+        this.sortCode = '';
+        this.accountNumber = '';
+      }
+    }
+  }
+
+  onClientChange(){
+    let count = 0
+    if(this.clientName){
+      for(let invoice of this.allInvoices){
+        if(invoice.clientName === this.clientName){
+          count++
+        }
+      }
+      this.invoiceNumber = this.clientName + (count+1).toString()
+    }
+    console.log(count,'here')
+  }
+
+  generatePDF() {
+    // Target the element you want to convert into PDF
+    const invoiceElement = document.querySelector('.invoicePreview') as HTMLElement;
+  
+    // Options for html2pdf
+    const options = {
+      margin: 1,
+      filename: 'invoice.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+  
+    // Generate PDF
+    html2pdf().from(invoiceElement).set(options).save();
+  }
+  
 
   async getCurrentUserEmail() {
     const user = await this.afAuth.currentUser;
@@ -66,6 +123,10 @@ export class InvoiceFormComponent {
     this.pService.getProfileDetails(this.userEmail).subscribe(val=>{
       this.details = val[0];
       console.log(this.details)
+    })
+    this.invoiceService.getUserInvoices(this.userEmail).subscribe(val=>{
+      this.allInvoices=val
+      console.log(val)
     })
   }
 }

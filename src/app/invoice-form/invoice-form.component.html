@@ -2,31 +2,29 @@
     <h1 class="text-white">Create Invoice</h1>
     <form class="main-form" (ngSubmit)="submitInvoice()">
         <div>
-            <h4> Client Details</h4> 
-            <p>(e.g. name and address)</p>
-            <textarea type="text" id="clientName" [(ngModel)]="clientName" name="clientName"></textarea>
+            <h4 class="text-center"> Client</h4> 
+            <input (change)="onClientChange()" type="text" id="clientName" [(ngModel)]="clientName" name="clientName">
         </div>
 
         <div class="headingDetails d-flex p-5 align-items-start">
             
             <div>
                 <h4>Invoice Number</h4> 
+                <p class="text-italic">Edit as needed</p>
                 <input type="text" id="clientName" [(ngModel)]="invoiceNumber" name="invoiceNumber">
             </div>
             <div>
                 <h4>Issue Date</h4>
+                <p class="text-italic">Leave blank for today's date</p>
                 <input type="date" id="date" [(ngModel)]="date" name="date">
             </div>
             <div>
                 <h4>Invoice Due Date</h4>
+                <p class="text-italic">Leave blank to default to 14 days</p>
                 <input type="date" id="date" [(ngModel)]="dateDue" name="date">
             </div>
         </div>
 
-        
-        
-
-        
         <br>
         <div class="d-flex flex-column align-items-center">
             <h3>Items</h3>
@@ -47,26 +45,26 @@
 
         <label for="businesses">Select Business: </label>
         <select name="businesses" id="busniess" [(ngModel)]="selectedBusiness">
-            <option selected></option>
+            <option value="" disabled selected>Select a business</option> <!-- Default option -->
             <option name="selectedBusiness" [(ngModel)]="selectedBusiness">{{details.name}}</option>
             <option name="selectedBusiness" *ngFor="let business of details.businesses" [(ngModel)]="selectedBusiness">{{business.businessName}}</option>
         </select>
 
         <label for="addresses">Select Address: </label>
         <select name="addresses" id="address" [(ngModel)]="selectedAddress">
-            <option selected></option>
+            <option value="" disabled selected>Select an Address</option> <!-- Default option -->
+
             <option name="selectedAddress" [value]="details.address" selected>{{details.address}}</option>
             <option name="selectedAddress" *ngFor="let business of details.businesses" [(ngModel)]="selectedAddress">{{business.businessAddress}}</option>
         </select>
 
         <label for="Banks">Select Bank: </label>
-        <select name="banks" id="bank" [(ngModel)]="selectedBank">
-            <option selected></option>
-            <option *ngFor="let bank of details.bankDetails" name="bank" [(ngModel)]="selectedBank">
-                Bank Name: {{bank.bankName}} Sort Code: {{bank.sortCode}} Account Number: {{bank.accountNumber}}
-            </option>
-            
+        <select name="banks" id="bank" [(ngModel)]="selectedBank" (change)="onBankChange()">
+            <option value="" disabled selected>Select a bank</option> <!-- Default option -->
+            <option *ngFor="let bank of details.bankDetails" [value]="bank.bankNickName">{{bank.bankNickName}}</option>
         </select>
+
+        
 
         <label for="notes">Notes: </label>
         <textarea [(ngModel)]="notes" name="notes" id="notes"></textarea>
@@ -75,16 +73,16 @@
 
     <div class="invoicePreview p-5">
         <div class="heading">
-            <h2>Invoice</h2>
+            <h2 class="fancy-text text-right">INVOICE</h2>
             <div>{{selectedBusiness}}</div>
             <div>{{selectedAddress}}</div>
         </div>
-        <div class="client">
-            <div>Invoice addressed to: {{clientName}}</div>
-            <div>Invoice number: {{invoiceNumber}}</div>
-            <div>Issue date: {{date | date}}</div>
+        <div>
+            <div class="text-left">Billed to: {{clientName}}</div>
+            <div class="text-right">Invoice number: {{invoiceNumber}}</div>
+            <div class="text-right">Issue date: {{date | date}}</div>
         </div>
-        <div class="itemPreview">
+        <div class="itemPreview d-flex flex-column justify-content-center">
             <table class="table table-striped" *ngIf="items.length>1">
                 <thead>
                     <tr>
@@ -102,16 +100,22 @@
                         <td *ngIf="item.price>0 && item.quantity>0">{{item.price * item.quantity | number:'1.2-2'}}</td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td>Total Due: </td>
-                        <td>£{{this.total | number:'1.2-2'}}</td>
+                        <td class="no-border"></td>
+                        <td class="no-border"></td>
+                        <td class="text-italic">Total Due: </td>
+                        <td class="text-bold">£{{this.total | number:'1.2-2'}}</td>
                     </tr>
                 </tbody>
             </table>
             <p>Invoice due by: {{dateDue | date}}</p>
-            <p>Please pay into:{{selectedBank}}</p>
+            <p class="text-center">Please pay into:</p>
+            <div class="d-flex justify-content-between">
+                <span>Bank Name: {{bankName}}</span>
+                <span>Sort Code: {{sortCode}}</span>
+                <span>Account Number: {{accountNumber}}</span>
+            </div>
         </div>
     </div>
+    <button [disabled]="!generate" (click)="generatePDF()">Generate PDF of invoice</button>
     <br>
 </div>

@@ -19,7 +19,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let invoice of invoices; let i=index">
-                    <td>{{this.invoice.date}}</td>
+                    <td>{{this.invoice.date | date}}</td>
                     <td>{{this.invoice.clientName}}</td>
                     <td>{{this.invoice.total | number:'1.2-2'}}</td>
                     <td *ngIf="invoice.final==invoice.total">Yes</td>
@@ -33,10 +33,10 @@
                     <td>
                         <input *ngIf="!invoice.paid && !invoice.final" id="partialPayment" [(ngModel)]="invoice.partialPayment" type="number">
                     </td>
-                    <td *ngIf="invoice.final">£{{invoice.final}}</td>
+                    <td *ngIf="invoice.final">£{{invoice.final | number:'1.2-2'}}</td>
                     <td *ngIf="!invoice.paid && invoice.partialPayment==0 && !invoice.final">£0</td>
-                    <td *ngIf="invoice.paid">£{{invoice.total}}</td>
-                    <td *ngIf="!invoice.paid && invoice.partialPayment>0">£{{invoice.partialPayment}}</td>
+                    <td *ngIf="invoice.paid">£{{invoice.total | number:'1.2-2'}}</td>
+                    <td *ngIf="!invoice.paid && invoice.partialPayment>0">£{{invoice.partialPayment | number:'1.2-2'}}</td>
                     <td>
                         <textarea [(ngModel)]="invoice.notes" name="notes" id="notes">{{invoice.notes}}</textarea>
                         <button (click)="updateInvoice(invoice)">Save and submit</button>
