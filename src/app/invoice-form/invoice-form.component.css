@@ -1,60 +1,13 @@
-/* .main-container{
-    background-color: gold;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.main-form{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.invoicePreview {
-    background-color: lightblue;
-    display: flex;
-    width: 80vw;
-    flex-direction: column;
-}
-
-.heading{
-    display:flex;
-    flex-direction: column;
-    align-items: flex-end;
-    padding: 8px;
-}
-
-.itemPreview{
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-    align-items: center;
-    width: 60vw;
-    background-color: lightgreen;
-    text-align: right;
-}
-
-.client{
-    padding: 8px 
-}
-
-.headingDetails{
-    gap:38px;
-} */
-
 /* Main Container Styling */
 .main-container {
-    background-color: #391328; /* Soft background */
+    background-color: #391328;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
-    width: 85%;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
     margin: auto;
 }
 
@@ -63,38 +16,25 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: 90%;
     padding: 20px;
-    background-color: #c898a6; /* White background for clarity */
+    background-color: #c898a6;
     border-radius: 10px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.main-form div {
-    margin-bottom: 20px; /* Spacing between form sections */
-}
-
-.main-form h4 {
-    color: #333333; /* Darker text for better readability */
-    margin-bottom: 5px;
-}
-
-.main-form p {
-    font-size: 0.9rem;
-    color: #555;
-}
-
+/* Form Inputs */
 .main-form input, .main-form textarea, .main-form select {
-    width: 100%; /* Full width for input fields */
+    width: 100%;
     padding: 10px;
     margin-top: 8px;
-    border: 1px solid #cccccc; /* Soft border */
+    border: 1px solid #cccccc;
     border-radius: 5px;
-    box-sizing: border-box; /* Ensure padding doesn't affect width */
+    box-sizing: border-box;
 }
 
 button {
-    background-color: #007bff; /* Blue button */
+    background-color: #007bff;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -113,53 +53,59 @@ button:hover:not(:disabled) {
 
 /* Invoice Preview Styling */
 .invoicePreview {
-    background-color: #e3f2fd; /* Light blue for invoice preview */
+    background-color: #e3f2fd;
     display: flex;
-    width: 80vw;
+    width: 90%; /* Adjusted width for full use of space */
     flex-direction: column;
     padding: 20px;
     border-radius: 10px;
     margin-top: 30px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.heading {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    padding: 8px;
-}
-
-.itemPreview {
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-    align-items: center;
-    width: 100%;
-    background-color: #c8e6c9; /* Light green background */
-    padding: 15px;
-    border-radius: 10px;
-    text-align: left;
-    margin-top: 20px;
-}
-
+/* Styling the Table */
 .table-striped {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
 }
 
 .table-striped th, .table-striped td {
-    padding: 10px;
-    border: 1px solid #ccc;
+    padding: 12px;
+    border: 1px solid #cccccc;
     text-align: left;
 }
 
 .table-striped th {
-    background-color: #f1f1f1; /* Light grey for header */
+    background-color: #f1f1f1;
+    font-weight: bold;
 }
 
-.client {
-    padding: 8px;
+.table-striped td {
+    background-color: #ffffff;
+}
+
+.table-striped tr:nth-child(even) td {
+    background-color: #f9f9f9; /* Alternating row colors */
+}
+
+/* Responsive for mobile */
+@media screen and (max-width: 768px) {
+    .table-striped {
+        display: block;
+        overflow-x: auto; /* Make table scrollable on mobile */
+        width: 100%;
+    }
+    
+    .table-striped th, .table-striped td {
+        padding: 8px;
+        font-size: 14px; /* Smaller text for mobile */
+    }
+}
+
+/* Client Info and Headings */
+.client, .heading {
+    padding: 10px;
     background-color: #ffffff;
     border-radius: 5px;
     margin-bottom: 10px;
@@ -170,10 +116,15 @@ button:hover:not(:disabled) {
     font-weight: 500;
 }
 
+/* Heading Details (Flexbox) */
 .headingDetails {
     display: flex;
-    gap: 38px;
+    gap: 38px; /* Space between items */
     justify-content: space-between;
     padding: 20px 0;
     width: 100%;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
 }
+
+
+

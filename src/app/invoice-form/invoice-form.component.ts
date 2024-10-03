@@ -30,6 +30,7 @@ export class InvoiceFormComponent {
 
   ngOnInit(): void{
     this.getCurrentUserEmail();
+    this.dateDue.setDate(this.date.getDate() + 14)
   }
 
   calculateTotal() {
