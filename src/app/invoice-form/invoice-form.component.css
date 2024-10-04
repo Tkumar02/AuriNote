@@ -1,4 +1,4 @@
-/* Main Container Styling */
+
 .main-container {
     background-color: #391328;
     display: flex;
@@ -11,7 +11,7 @@
     margin: auto;
 }
 
-/* Form Styling */
+
 .main-form {
     display: flex;
     flex-direction: column;
@@ -23,7 +23,7 @@
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Form Inputs */
+
 .main-form input, .main-form textarea, .main-form select {
     width: 100%;
     padding: 10px;
@@ -51,11 +51,11 @@ button:hover:not(:disabled) {
     background-color: #0056b3;
 }
 
-/* Invoice Preview Styling */
+
 .invoicePreview {
     background-color: #ffffff;
     display: flex;
-    width: 90%; /* Adjusted width for full use of space */
+    width: 90%; 
     flex-direction: column;
     padding: 20px;
     border-radius: 10px;
@@ -63,7 +63,7 @@ button:hover:not(:disabled) {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Styling the Table */
+
 .table-striped {
     width: 100%;
     border-collapse: collapse;
@@ -86,28 +86,28 @@ button:hover:not(:disabled) {
 }
 
 .table-striped td:empty {
-    border: none; /* Ensure empty cells do not have borders */
+    border: none; 
 }
 
 .table-striped tr:nth-child(even) td {
-    background-color: #f9f9f9; /* Alternating row colors */
+    background-color: #f9f9f9; 
 }
 
-/* Responsive for mobile */
+
 @media screen and (max-width: 768px) {
     .table-striped {
         display: block;
-        overflow-x: auto; /* Make table scrollable on mobile */
+        overflow-x: auto; 
         width: 100%;
     }
     
     .table-striped th, .table-striped td {
         padding: 8px;
-        font-size: 14px; /* Smaller text for mobile */
+        font-size: 14px; 
     }
 }
 
-/* Client Info and Headings */
+
 .client, .heading {
     padding: 10px;
     background-color: #ffffff;
@@ -120,14 +120,14 @@ button:hover:not(:disabled) {
     font-weight: 500;
 }
 
-/* Heading Details (Flexbox) */
+
 .headingDetails {
     display: flex;
-    gap: 38px; /* Space between items */
+    gap: 38px; 
     justify-content: space-between;
     padding: 20px 0;
     width: 100%;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    flex-wrap: wrap; 
 }
 
 .fancy-text {
@@ -146,9 +146,7 @@ button:hover:not(:disabled) {
     font-weight: bold;
 }
 
-.no-border {
-    border: none; /* Removes the border */
-}
+
 
 
 

@@ -68,10 +68,10 @@
 
         <label for="notes">Notes: </label>
         <textarea [(ngModel)]="notes" name="notes" id="notes"></textarea>
-        <button [disabled]="!invoiceNumber || !clientName || !selectedBank || !total" type="submit">Submit Invoice</button>
+        <button [disabled]="!invoiceNumber || !clientName || !selectedBank || !total" type="submit">Save Invoice</button>
     </form>
 
-    <div class="invoicePreview p-5">
+    <div class="invoicePreview p-5 text-center">
         <div class="heading">
             <h2 class="fancy-text text-right">INVOICE</h2>
             <div>{{selectedBusiness}}</div>
@@ -82,6 +82,8 @@
             <div class="text-right">Invoice number: {{invoiceNumber}}</div>
             <div class="text-right">Issue date: {{date | date}}</div>
         </div>
+
+
         <div class="itemPreview d-flex flex-column justify-content-center">
             <table class="table table-striped" *ngIf="items.length>1">
                 <thead>
@@ -116,6 +118,8 @@
             </div>
         </div>
     </div>
+
+    
     <button [disabled]="!generate" (click)="generatePDF()">Generate PDF of invoice</button>
     <br>
 </div>
