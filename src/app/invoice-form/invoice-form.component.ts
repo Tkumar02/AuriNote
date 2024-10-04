@@ -64,7 +64,7 @@ export class InvoiceFormComponent {
       notes:this.notes,
       invoiceID:this.invoiceNumber};
     this.invoiceService.createInvoice(invoice).then(()=> {
-      this.toast.success('Invoice successfully submitted')
+      this.toast.success('Invoice successfully saved')
     })
     this.generate = true;
   }
