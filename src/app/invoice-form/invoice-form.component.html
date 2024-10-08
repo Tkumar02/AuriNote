@@ -16,12 +16,12 @@
             <div>
                 <h4>Issue Date</h4>
                 <p class="text-italic">Leave blank for today's date</p>
-                <input type="date" id="date" [(ngModel)]="date" name="date">
+                <input type="date" id="issueDate" [(ngModel)]="todayDate" name="issueDate">
             </div>
             <div>
                 <h4>Invoice Due Date</h4>
                 <p class="text-italic">Leave blank to default to 14 days</p>
-                <input type="date" id="date" [(ngModel)]="dateDue" name="date">
+                <input type="date" id="dueDate" [(ngModel)]="dateDue" name="dueDate">
             </div>
         </div>
 
@@ -44,23 +44,17 @@
         <br>
 
         <label for="businesses">Select Business: </label>
-        <select name="businesses" id="busniess" [(ngModel)]="selectedBusiness">
-            <option value="" disabled selected>Select a business</option> <!-- Default option -->
+        <select name="businesses" id="busniess" [(ngModel)]="selectedBusiness" (change)="onBusinessChange()">
+            <option *ngIf="businesses" value="" selected>Select a business</option> <!-- Default option -->
+            <option *ngIf="!businesses" value="" selected>{{details.name}}</option>
             <option name="selectedBusiness" [(ngModel)]="selectedBusiness">{{details.name}}</option>
             <option name="selectedBusiness" *ngFor="let business of details.businesses" [(ngModel)]="selectedBusiness">{{business.businessName}}</option>
         </select>
 
-        <label for="addresses">Select Address: </label>
-        <select name="addresses" id="address" [(ngModel)]="selectedAddress">
-            <option value="" disabled selected>Select an Address</option> <!-- Default option -->
-
-            <option name="selectedAddress" [value]="details.address" selected>{{details.address}}</option>
-            <option name="selectedAddress" *ngFor="let business of details.businesses" [(ngModel)]="selectedAddress">{{business.businessAddress}}</option>
-        </select>
-
         <label for="Banks">Select Bank: </label>
         <select name="banks" id="bank" [(ngModel)]="selectedBank" (change)="onBankChange()">
-            <option value="" disabled selected>Select a bank</option> <!-- Default option -->
+            <option *ngIf="!oneBank" value=""  selected>Select Bank</option>
+            <option *ngIf="oneBank" value="" selected>{{details.bankDetails[0].bankNickName}}</option>
             <option *ngFor="let bank of details.bankDetails" [value]="bank.bankNickName">{{bank.bankNickName}}</option>
         </select>
 
@@ -68,23 +62,24 @@
 
         <label for="notes">Notes: </label>
         <textarea [(ngModel)]="notes" name="notes" id="notes"></textarea>
-        <button [disabled]="!invoiceNumber || !clientName || !selectedBank || !total" type="submit">Save Invoice</button>
+        <button [disabled]="!invoiceNumber || !clientName || !total" type="submit">Save Invoice</button>
     </form>
 
     <div class="invoicePreview p-5 text-center">
         <div class="heading">
             <h2 class="fancy-text text-right">INVOICE</h2>
-            <div>{{selectedBusiness}}</div>
-            <div>{{selectedAddress}}</div>
+            <div>{{businesses && selectedBusiness ? selectedBusiness : details.name}}</div>
+            <div>{{businesses && selectedBusiness ? selectedAddress : details.address}}</div>
         </div>
         <div>
-            <div class="text-left">Billed to: {{clientName}}</div>
+            <div class="text-left">Bill to: <p>{{clientName}}</p></div>
             <div class="text-right">Invoice number: {{invoiceNumber}}</div>
-            <div class="text-right">Issue date: {{date | date}}</div>
+            <div class="text-right">Issue date: {{todayDate | date}}</div>
         </div>
 
 
-        <div class="itemPreview d-flex flex-column justify-content-center">
+        <div class="itemPreview d-flex flex-column align-items-center">
+            <div>
             <table class="table table-striped" *ngIf="items.length>1">
                 <thead>
                     <tr>
@@ -109,13 +104,14 @@
                     </tr>
                 </tbody>
             </table>
-            <p>Invoice due by: {{dateDue | date}}</p>
-            <p class="text-center">Please pay into:</p>
-            <div class="d-flex justify-content-between">
-                <span>Bank Name: {{bankName}}</span>
-                <span>Sort Code: {{sortCode}}</span>
-                <span>Account Number: {{accountNumber}}</span>
             </div>
+        </div>
+        <div class="text-left">
+            <p>Invoice due by: {{dateDue | date}}</p>
+            <div>Please pay into:</div>
+            <div>{{oneBank ? 'Bank Name: ' + details.bankDetails[0].bankName : 'Bank Name: ' + bankName}}</div>
+            <div>{{oneBank ? 'Sort Code: ' + details.bankDetails[0].sortCode : 'Sort Code: ' + sortCode}}</div>
+            <div>{{oneBank ? 'Account Number: ' + details.bankDetails[0].accountNumber : 'Account Number: ' + accountNumber}}</div>
         </div>
     </div>
 

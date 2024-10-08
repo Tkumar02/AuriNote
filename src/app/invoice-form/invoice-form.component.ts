@@ -15,8 +15,8 @@ export class InvoiceFormComponent {
   clientName: string = '';
   invoiceNumber: string = '';
   userEmail: string = '';
-  date: any;
-  dateDue= new Date;
+  todayDate: any;
+  dateDue: any;
   notes = '';
   items = [{ description:'', quantity:0, price:0}];
   total = 0;
@@ -29,6 +29,9 @@ export class InvoiceFormComponent {
   sortCode: string = '';
   accountNumber: string = '';
   generate: boolean = false;
+  futureDate= new Date;
+  oneBank: boolean = false;
+  businesses: boolean = false;
   
   constructor(
     private invoiceService:InvoiceService, 
@@ -39,8 +42,10 @@ export class InvoiceFormComponent {
 
   ngOnInit(): void{
     this.getCurrentUserEmail();
-    this.date = new Date().toISOString().split('T')[0];
-    this.dateDue.setDate(this.date.getDate() + 14)
+    this.todayDate = new Date().toISOString().split('T')[0];
+    const todayTempDate = new Date()
+    this.futureDate.setDate(todayTempDate.getDate() + 14)
+    this.dateDue = this.futureDate.toISOString().split('T')[0];
   }
 
   calculateTotal() {
@@ -55,7 +60,7 @@ export class InvoiceFormComponent {
     const invoice = {
       userEmail:this.userEmail, 
       clientName: this.clientName, 
-      date: this.date, 
+      date: this.todayDate, 
       items: this.items, 
       total: this.total,
       partialPayment:0, 
@@ -84,6 +89,17 @@ export class InvoiceFormComponent {
     }
   }
 
+  onBusinessChange(){
+    if (this.businesses) {
+      const selectedBusinessObj = this.details.businesses.find((business: { businessName: string; }) => business.businessName === this.selectedBusiness);
+      if (selectedBusinessObj) {
+        this.selectedAddress = selectedBusinessObj.businessAddress;
+      } else {
+        this.selectedAddress = this.details.address;
+      }
+    }
+  }
+
   onClientChange(){
     let count = 0
     if(this.clientName){
@@ -94,7 +110,7 @@ export class InvoiceFormComponent {
       }
       this.invoiceNumber = this.clientName + (count+1).toString()
     }
-    console.log(count,'here')
+    //console.log(count,'here')
   }
 
   generatePDF() {
@@ -122,11 +138,16 @@ export class InvoiceFormComponent {
     }
     this.pService.getProfileDetails(this.userEmail).subscribe(val=>{
       this.details = val[0];
-      console.log(this.details)
+      if(Object.keys(this.details.bankDetails).length == 1){
+        this.oneBank = true;
+      }
+      if(this.details.businesses.length>0){
+        this.businesses = true;
+      }
     })
     this.invoiceService.getUserInvoices(this.userEmail).subscribe(val=>{
       this.allInvoices=val
-      console.log(val)
+      //console.log(val)
     })
   }
 }

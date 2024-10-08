@@ -25,6 +25,16 @@
                     <td *ngIf="invoice.final==invoice.total">Yes</td>
                     <td *ngIf="!invoice.final">Pending</td>
                     <td *ngIf="invoice.final && invoice.final!=invoice.total">New amount paid</td>
+                </tr>
+            </tbody>
+            <!-- <tbody>
+                <tr *ngFor="let invoice of invoices; let i=index">
+                    <td>{{this.invoice.date | date}}</td>
+                    <td>{{this.invoice.clientName}}</td>
+                    <td>{{this.invoice.total | number:'1.2-2'}}</td>
+                    <td *ngIf="invoice.final==invoice.total">Yes</td>
+                    <td *ngIf="!invoice.final">Pending</td>
+                    <td *ngIf="invoice.final && invoice.final!=invoice.total">New amount paid</td>
                     <td>
                         <button *ngIf="!invoice.paid && !invoice.final" (click)="paymentStatus(i)">Confirm Payment</button>
                         <button *ngIf="invoice.paid" (click)="paymentStatus(i)">Change to pending</button>
@@ -42,7 +52,7 @@
                         <button (click)="updateInvoice(invoice)">Save and submit</button>
                     </td>
                 </tr>
-            </tbody>
+            </tbody> -->
         </table>
     </div>
 </div>
