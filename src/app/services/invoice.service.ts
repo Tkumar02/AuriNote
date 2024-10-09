@@ -17,6 +17,10 @@ export class InvoiceService {
     return this.afs.collection('invoices').doc(id).set({id,...invoice})
   }
 
+  deleteInvoice(invoiceID:string): Promise <void> {
+    return this.afs.collection('invoices').doc(invoiceID).delete()
+  }
+
   getAllInvoices(): Observable<Invoice[]> {
     return this.afs.collection<Invoice>('invoices').valueChanges();
   }

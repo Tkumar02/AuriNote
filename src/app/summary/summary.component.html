@@ -1,58 +1,112 @@
-
 <div class="main-container">
     <h2>Summary Page</h2>
     <button (click)="viewInvoices()">View Invoices</button>
     <div>
         <div *ngIf="showBox">No invoices at present</div>
-        <table *ngIf="invoices.length>0" class="table table-striped">
+        <table *ngIf="invoices && invoices.length>0" class="table table-striped">
             <thead>
                 <tr>
                     <th>Date</th>
                     <th>Client</th>
                     <th>Invoice Total</th>
-                    <th>Paid</th>
-                    <th>Confirm Payment</th>
-                    <th>Edit Payment</th>
-                    <th>Completed payment</th>
-                    <th>Notes</th>
+                    <th>Payment Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
+            
             <tbody>
                 <tr *ngFor="let invoice of invoices; let i=index">
-                    <td>{{this.invoice.date | date}}</td>
-                    <td>{{this.invoice.clientName}}</td>
-                    <td>{{this.invoice.total | number:'1.2-2'}}</td>
-                    <td *ngIf="invoice.final==invoice.total">Yes</td>
-                    <td *ngIf="!invoice.final">Pending</td>
-                    <td *ngIf="invoice.final && invoice.final!=invoice.total">New amount paid</td>
+                    <td>{{invoice.date | date}}</td>
+                    <td>{{invoice.clientName}}</td>
+                    <td>£{{invoice.total | number:'1.2-2'}}</td>
+                    <td>{{invoice.paid ? 'Paid: £' + invoice.final : 'Pending'}}</td>
+                    <td class="d-flex flex-column actions">
+
+                        <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#paymentModal" (click)="setSelectedInvoice(i)">Payment</button>
+                        <!-- Modal HTML Structure -->
+                        <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="myModalLabel">Edit Payment Details</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    Choose payment options
+                                </div>
+                                <div class="modal-footer">
+                                    <button *ngIf="!editInput" type="button" class="btn btn-success" data-dismiss="modal" (click)="confirmFull(selectedInvoice)">Confirm full payment</button>
+                                    <button *ngIf="!editInput" type="button" class="btn btn-warning" (click)="changePayment()">Edit Payment</button>
+                                    <label *ngIf="editInput" for="newPayment">Enter new payment amount: </label>
+                                    <input *ngIf="editInput" [(ngModel)]="newPayment" type="number" name="newPayment">
+                                    <button *ngIf="editInput" class="btn btn-success" (click)="editPayment(selectedInvoice.id)" data-dismiss="modal">Confirm new payment</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                  
+
+                        <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#notesModal" (click)="setSelectedInvoice(i)">View Notes</button>
+                        <!-- Modal HTML Structure -->
+                        <div class="modal fade" id="notesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="myModalLabel">Notes - {{selectedInvoice ? selectedInvoice.invoiceID : ''}}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    {{selectedInvoice && selectedInvoice.notes ? selectedInvoice.notes : 'There are no notes attached to this invoice'}}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="showNotes=false">Close</button>
+                                    <button *ngIf="!showNotes" type="button" class="btn btn-warning" (click)="showNotes=!showNotes">Edit notes</button>
+                                    <textarea *ngIf="showNotes" [(ngModel)]="selectedInvoice.notes"></textarea>
+                                    <button *ngIf="showNotes" class="btn btn-success" (click)="submitNotes(selectedInvoice.id,selectedInvoice.notes)" data-dismiss="modal">Submit Notes</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+                        <!-- Button to trigger modal -->
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" (click)="setSelectedInvoice(i)">Delete</button>
+                        <!-- Modal HTML Structure -->
+                        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="myModalLabel">Delete Invoice</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                This will permanently remove your invoice, are you sure you want to continue?
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" (click)="deleteInvoice(selectedInvoice.id)" class="btn btn-danger" data-dismiss="modal">Confirm Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+
+                    </td>
                 </tr>
             </tbody>
-            <!-- <tbody>
-                <tr *ngFor="let invoice of invoices; let i=index">
-                    <td>{{this.invoice.date | date}}</td>
-                    <td>{{this.invoice.clientName}}</td>
-                    <td>{{this.invoice.total | number:'1.2-2'}}</td>
-                    <td *ngIf="invoice.final==invoice.total">Yes</td>
-                    <td *ngIf="!invoice.final">Pending</td>
-                    <td *ngIf="invoice.final && invoice.final!=invoice.total">New amount paid</td>
-                    <td>
-                        <button *ngIf="!invoice.paid && !invoice.final" (click)="paymentStatus(i)">Confirm Payment</button>
-                        <button *ngIf="invoice.paid" (click)="paymentStatus(i)">Change to pending</button>
-                        <button *ngIf="invoice.final" (click)="paymentStatus(i)">Edit payment</button>
-                    </td>
-                    <td>
-                        <input *ngIf="!invoice.paid && !invoice.final" id="partialPayment" [(ngModel)]="invoice.partialPayment" type="number">
-                    </td>
-                    <td *ngIf="invoice.final">£{{invoice.final | number:'1.2-2'}}</td>
-                    <td *ngIf="!invoice.paid && invoice.partialPayment==0 && !invoice.final">£0</td>
-                    <td *ngIf="invoice.paid">£{{invoice.total | number:'1.2-2'}}</td>
-                    <td *ngIf="!invoice.paid && invoice.partialPayment>0">£{{invoice.partialPayment | number:'1.2-2'}}</td>
-                    <td>
-                        <textarea [(ngModel)]="invoice.notes" name="notes" id="notes">{{invoice.notes}}</textarea>
-                        <button (click)="updateInvoice(invoice)">Save and submit</button>
-                    </td>
-                </tr>
-            </tbody> -->
         </table>
     </div>
 </div>
+
+
+
+
+
+
+
+    
+

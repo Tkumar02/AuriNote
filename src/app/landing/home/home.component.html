@@ -1,7 +1,7 @@
 <div class="home-container">
     <!-- Title showing Invoice Total -->
     <div class="total-title">
-      <h1>Invoiced Total: £{{ totalAmount }}</h1>
+      <h1>Invoiced Total: £{{ totalAmount | number:'1.2-2' }}</h1>
       <h2>Completed Payments Total: £{{ paidAmount }}</h2>
     </div>
   

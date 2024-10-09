@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { InvoiceService } from '../services/invoice.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { ToastrService } from 'ngx-toastr';
+import { InvoiceItem } from '../interfaces';
 
 @Component({
   selector: 'app-summary',
@@ -11,9 +13,16 @@ export class SummaryComponent {
   userEmail = '';
   invoices: any;
   showBox: boolean = false;
-  editPayment: string = 'Confirm new Payment'
+  selectedInvoice: any;
+  editInput: boolean = false;
+  newPayment: number = 0;
+  showNotes: boolean = false;
 
-  constructor(private iservice: InvoiceService, private afAuth: AngularFireAuth) {}
+  constructor(
+    private iservice: InvoiceService, 
+    private afAuth: AngularFireAuth,
+    private toast: ToastrService,
+  ) {}
 
   async getCurrentUserEmail() {
     const user = await this.afAuth.currentUser;
@@ -35,27 +44,53 @@ export class SummaryComponent {
     })
   }
 
-  paymentStatus(i:number){
-    this.invoices[i].paid = !this.invoices[i].paid;
-    if(this.invoices[i].paid){
-      this.invoices[i].final = this.invoices[i].total
-    }
-    else{
-      this.invoices[i].final = this.invoices[i].partialPayment
-    }
-    console.log(this.invoices[i].final,'total', this.invoices[i].total)
+  setSelectedInvoice(index: number) {
+    this.selectedInvoice = this.invoices[index];
   }
 
-  updateInvoice(invoice: any) {
-    const updatedData = {
-      notes: invoice.notes,  
-      final: invoice.paid ? invoice.total : invoice.partialPayment
-    };
+  deleteInvoice(id:string){
+    this.iservice.deleteInvoice(id).then(()=>{
+      this.toast.success('Invoice successfully deleted')
+    })
+  }
 
-    this.iservice.updateInvoice(invoice.id, updatedData).then(() => {
-      console.log(`Invoice ${invoice.id} updated successfully!`);
-    }).catch(error => {
-      console.error("Error updating invoice: ", error);
-    });
+  confirmFull(invoice:any){
+    const updatedData = {
+      final: invoice.total,
+      paid: true
+    }
+    this.iservice.updateInvoice(invoice.id,updatedData).then(()=>{
+      this.toast.success('Payment status submitted successfully')
+    })
+  }
+
+  changePayment(){
+    this.editInput = !this.editInput;
+  }
+
+  editPayment(id:string){
+    const updatedData = {
+      paid:true,
+      final: this.newPayment
+    }
+    this.iservice.updateInvoice(id,updatedData).then(()=>{
+      this.editInput = !this.editInput;
+      this.newPayment = 0;
+      this.toast.success('New payment saved')
+    })
+    this.editInput = !this.editInput;
+    console.log(updatedData.final)
+  }
+
+  submitNotes(id:string,newNotes:string){
+    console.log(id)
+    const updatedData = {
+      notes: newNotes
+    }
+    this.iservice.updateInvoice(id,updatedData).then(()=>{
+      this.toast.success('Notes updated successfully');
+      this.showNotes = false;
+      console.log('done')
+    })
   }
 }
