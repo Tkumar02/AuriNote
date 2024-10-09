@@ -17,6 +17,7 @@ export class SummaryComponent {
   editInput: boolean = false;
   newPayment: number = 0;
   showNotes: boolean = false;
+  childPDF: boolean = false;
 
   constructor(
     private iservice: InvoiceService, 
@@ -92,5 +93,11 @@ export class SummaryComponent {
       this.showNotes = false;
       console.log('done')
     })
+  }
+
+  generatePDF(index:number){
+    this.selectedInvoice = this.invoices[index];
+    this.childPDF = true;
+    console.log(this.selectedInvoice.id)
   }
 }

@@ -61,12 +61,18 @@ export class InvoiceFormComponent {
       userEmail:this.userEmail, 
       clientName: this.clientName, 
       date: this.todayDate, 
+      dueDate: this.dateDue,
       items: this.items, 
       total: this.total,
       partialPayment:0, 
       paid:false, 
       final: 0,
       notes:this.notes,
+      businessName: this.selectedBusiness,
+      businessAddress: this.selectedAddress,
+      bankName:this.bankName,
+      accountNumber: this.accountNumber,
+      sortCode: this.sortCode,
       invoiceID:this.invoiceNumber};
     this.invoiceService.createInvoice(invoice).then(()=> {
       this.toast.success('Invoice successfully saved')
@@ -140,9 +146,16 @@ export class InvoiceFormComponent {
       this.details = val[0];
       if(Object.keys(this.details.bankDetails).length == 1){
         this.oneBank = true;
+        this.bankName = this.details.bankDetails[0].bankName
+        this.sortCode = this.details.bankDetails[0].sortCode
+        this.accountNumber = this.details.bankDetails[0].accountNumber
       }
       if(this.details.businesses.length>0){
         this.businesses = true;
+      }
+      else{
+        this.selectedBusiness = this.details.name;
+        this.selectedAddress = this.details.address;
       }
     })
     this.invoiceService.getUserInvoices(this.userEmail).subscribe(val=>{

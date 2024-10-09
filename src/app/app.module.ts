@@ -20,6 +20,7 @@ import { EditDetailsComponent } from './edit-details/edit-details.component';
 import { HomeComponent } from './landing/home/home.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { SummaryComponent } from './summary/summary.component';
+import { InvoicePreviewComponent } from './invoice-preview/invoice-preview.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { SummaryComponent } from './summary/summary.component';
     EditDetailsComponent,
     HomeComponent,
     AboutUsComponent,
-    SummaryComponent
+    SummaryComponent,
+    InvoicePreviewComponent
   ],
   imports: [
     BrowserModule,

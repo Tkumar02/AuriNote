@@ -1,6 +1,6 @@
-<div class="main-container">
+<div class="main-container text-center">
     <h2>Summary Page</h2>
-    <button (click)="viewInvoices()">View Invoices</button>
+    <button class="btn btn-info" (click)="viewInvoices()">View Invoices</button>
     <div>
         <div *ngIf="showBox">No invoices at present</div>
         <table *ngIf="invoices && invoices.length>0" class="table table-striped">
@@ -28,7 +28,7 @@
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                <h5 class="modal-title" id="myModalLabel">Edit Payment Details</h5>
+                                <h5 class="modal-title" id="myModalLabel">Edit Payment Details for {{selectedInvoice && selectedInvoice.invoiceID ? selectedInvoice.invoiceID : ''}}</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -92,8 +92,32 @@
                                 <button type="button" (click)="deleteInvoice(selectedInvoice.id)" class="btn btn-danger" data-dismiss="modal">Confirm Delete</button>
                                 </div>
                             </div>
+                            </div>
                         </div>
+
+                        <!-- Button to trigger modal -->
+                        <button type="button" class="btn btn-info mt-2" data-toggle="modal" data-target="#pdfModal"  (click)="generatePDF(i)">Generate PDF</button>
+                        <!-- Modal HTML Structure -->
+                        <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="myModalLabel">View Invoice</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    <app-invoice-preview *ngIf="childPDF" [message]="selectedInvoice"></app-invoice-preview>
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                            </div>
                         </div>
+                        
+                        
 
                     </td>
                 </tr>
