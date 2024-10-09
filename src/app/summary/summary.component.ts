@@ -47,6 +47,7 @@ export class SummaryComponent {
 
   setSelectedInvoice(index: number) {
     this.selectedInvoice = this.invoices[index];
+    console.log(this.editInput)
   }
 
   deleteInvoice(id:string){
@@ -75,12 +76,11 @@ export class SummaryComponent {
       final: this.newPayment
     }
     this.iservice.updateInvoice(id,updatedData).then(()=>{
-      this.editInput = !this.editInput;
       this.newPayment = 0;
       this.toast.success('New payment saved')
     })
-    this.editInput = !this.editInput;
-    console.log(updatedData.final)
+    this.editInput = false;
+    console.log(updatedData.final, this.editInput)
   }
 
   submitNotes(id:string,newNotes:string){
