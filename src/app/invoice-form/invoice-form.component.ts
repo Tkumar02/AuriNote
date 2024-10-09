@@ -52,6 +52,10 @@ export class InvoiceFormComponent {
     this.total = this.items.reduce((sum,item) => sum + item.quantity * item.price,0)
   }
 
+  print(){
+    console.log(this.clientName,'hi')
+  }
+
   addItem() {
     this.items.push({description: '', quantity:0, price:0})
   }
@@ -144,6 +148,7 @@ export class InvoiceFormComponent {
     }
     this.pService.getProfileDetails(this.userEmail).subscribe(val=>{
       this.details = val[0];
+      console.log(this.details.clients)
       if(Object.keys(this.details.bankDetails).length == 1){
         this.oneBank = true;
         this.bankName = this.details.bankDetails[0].bankName

@@ -3,8 +3,11 @@
     <form class="main-form" (ngSubmit)="submitInvoice()">
         <div>
             <h4 class="text-center"> Client</h4> 
-            <input (change)="onClientChange()" type="text" id="clientName" [(ngModel)]="clientName" name="clientName">
+            <select name="clientName" id="clientName" [(ngModel)]="clientName" (change)="onClientChange()">
+                <option *ngFor="let client of details?.clients" [value]="client.clientName">{{client.clientName}}</option>
+            </select>
         </div>
+        
 
         <div class="headingDetails d-flex p-5 align-items-start">
             

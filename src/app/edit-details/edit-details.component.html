@@ -8,6 +8,27 @@
       <label for="address">Home Address:</label>
       <input [value]="profileExists ? profile.address : ''" type="text" id="address" formControlName="address" required>
     </div>
+
+    <div *ngIf="clients.length === 0">
+      <p>No client details available. Click "Add Another Client" to start adding.</p>
+  </div>
+
+  <div class="client" *ngIf="clients.length>0" formArrayName="clients">
+      <div *ngFor="let client of clients.controls; let i=index" [formGroupName]="i">
+          <fieldset>
+              <legend>Client Name {{i + 1}}</legend>
+
+              <label for="clientName{{i}}">Client Name: </label>
+              <input type="text" id="clientName{{i}}" formControlName="clientName" required>
+
+              <label for="clientAddress{{i}}">Client Address: </label>
+              <input type="text" id="clientAddress{{i}}" formControlName="clientAddress" required>
+
+              <button type="button" class="remove-btn" (click)="removeClient(i)">Remove</button>
+          </fieldset>
+      </div>
+  </div>
+  <button type="button" class="add-bank-btn" (click)="addClient()">Add Another Client</button>
   
 
     <div *ngIf="businesses.length === 0">

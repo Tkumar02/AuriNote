@@ -27,8 +27,9 @@ export class EditDetailsComponent implements OnInit {
     this.editDetailsForm = this.fb.group({
       name: ['', Validators.required],
       address: ['', Validators.required],
-      businesses: this.fb.array([]),  // FormArray for businesses
-      bankDetails: this.fb.array([])  // FormArray for bank details
+      businesses: this.fb.array([]),  
+      bankDetails: this.fb.array([]),
+      clients: this.fb.array([])  
     });
   }
 
@@ -44,6 +45,10 @@ export class EditDetailsComponent implements OnInit {
   // Getter for 'businesses' FormArray
   get businesses(): FormArray {
     return this.editDetailsForm.get('businesses') as FormArray;
+  }
+
+  get clients(): FormArray {
+    return this.editDetailsForm.get('clients') as FormArray;
   }
 
   // Add a new bank detail form group to 'bankDetails' FormArray
@@ -66,6 +71,14 @@ export class EditDetailsComponent implements OnInit {
     this.businesses.push(businessGroup);
   }
 
+  addClient(client?: any) {
+    const clientGroup = this.fb.group({
+      clientName: [client ? client.clientName : '', Validators.required],
+      clientAddress: [client ? client.clientAddress : '', Validators.required]
+    });
+    this.clients.push(clientGroup);
+  }
+
   // Remove a bank detail form group from 'bankDetails' FormArray
   removeBank(index: number) {
     this.bankDetails.removeAt(index);
@@ -74,6 +87,10 @@ export class EditDetailsComponent implements OnInit {
   // Remove a business form group from 'businesses' FormArray
   removeBusiness(index: number) {
     this.businesses.removeAt(index);
+  }
+
+  removeClient(index: number) {
+    this.clients.removeAt(index);
   }
 
   // Populate form with profile data (name, address, businesses, and bank details)
@@ -97,6 +114,13 @@ export class EditDetailsComponent implements OnInit {
       if (this.profile.bankDetails && this.profile.bankDetails.length > 0) {
         this.profile.bankDetails.forEach((bank: any) => {
           this.addBank(bank); // Pass the bank data to addBank
+        });
+      }
+
+      this.clearFormArray(this.clients);
+      if (this.profile.clients && this.profile.clients.length > 0) {
+        this.profile.clients.forEach((client: any) => {
+          this.addClient(client); 
         });
       }
     }
