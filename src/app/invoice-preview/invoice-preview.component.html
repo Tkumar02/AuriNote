@@ -26,8 +26,8 @@
                 <tr *ngFor="let item of message.items">
                     <td *ngIf="item.description">{{item.description}}</td>
                     <td *ngIf="item.quantity">{{item.quantity}}</td>
-                    <td *ngIf="item.price">£{{item.price}}</td>
-                    <td *ngIf="item.price && item.quantity">{{item.price * item.quantity | number:'1.2-2'}}</td>
+                    <td *ngIf="item.price">£{{item.price | number:'1.2-2'}}</td>
+                    <td *ngIf="item.price && item.quantity">£{{item.price * item.quantity | number:'1.2-2'}}</td>
                 </tr>
                 <tr>
                     <td class="no-border"></td>

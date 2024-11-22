@@ -96,8 +96,8 @@
                     <tr *ngFor="let item of items">
                         <td *ngIf="item.description!==''">{{item.description}}</td>
                         <td *ngIf="item.quantity>0">{{item.quantity}}</td>
-                        <td *ngIf="item.price>0">£{{item.price}}</td>
-                        <td *ngIf="item.price>0 && item.quantity>0">{{item.price * item.quantity | number:'1.2-2'}}</td>
+                        <td *ngIf="item.price>0">£{{item.price | number:'1.2-2'}}</td>
+                        <td *ngIf="item.price>0 && item.quantity>0">£{{item.price * item.quantity | number:'1.2-2'}}</td>
                     </tr>
                     <tr>
                         <td class="no-border"></td>

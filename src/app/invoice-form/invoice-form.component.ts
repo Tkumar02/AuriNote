@@ -52,10 +52,6 @@ export class InvoiceFormComponent {
     this.total = this.items.reduce((sum,item) => sum + item.quantity * item.price,0)
   }
 
-  print(){
-    console.log(this.clientName,'hi')
-  }
-
   addItem() {
     this.items.push({description: '', quantity:0, price:0})
   }
@@ -118,7 +114,7 @@ export class InvoiceFormComponent {
           count++
         }
       }
-      this.invoiceNumber = this.clientName + (count+1).toString()
+      this.invoiceNumber = this.clientName.slice(0,4) + (count+1).toString()+ '-'
     }
     //console.log(count,'here')
   }

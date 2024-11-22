@@ -17,9 +17,9 @@
             <tbody>
                 <tr *ngFor="let invoice of invoices; let i=index">
                     <td>{{invoice.date | date}}</td>
-                    <td>{{invoice.clientName}}</td>
+                    <td>{{invoice.clientName}} - {{invoice.invoiceID}}</td>
                     <td>£{{invoice.total | number:'1.2-2'}}</td>
-                    <td>{{invoice.paid ? 'Paid: £' + (invoice.final | number:'1.2-2') : 'Pending'}}</td>
+                    <td [ngStyle]="{'backgroundColor': invoice.paid ? 'gold' : 'pink'}">{{invoice.paid ? 'Paid: £' + (invoice.final | number:'1.2-2') : 'Pending'}}</td>
                     <td class="d-flex flex-column actions">
 
                         <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#paymentModal" (click)="setSelectedInvoice(i)">Payment</button>
