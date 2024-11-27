@@ -35,7 +35,7 @@
                 <label for="description-{{i}}">Description: </label>
                 <input type="text" id="description-{{i}}" name="description-{{i}}" [(ngModel)]="item.description">
                 <label for="quantity-{{i}}">Quantity: </label>
-                <input type="number" id="quantity={{i}}" name="quantity-{{i}}" [(ngModel)]="item.quantity">
+                <input (change)="calculateTotal()" type="number" id="quantity={{i}}" name="quantity-{{i}}" [(ngModel)]="item.quantity">
                 <label for="price-{{i}}">Price: </label>
                 <input type="number" id="price-{{i}}" name="price-{{i}}" [(ngModel)]="item.price"
                 (change)="calculateTotal()">

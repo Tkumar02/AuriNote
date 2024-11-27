@@ -126,7 +126,7 @@ export class InvoiceFormComponent {
     // Options for html2pdf
     const options = {
       margin: 1,
-      filename: 'invoice.pdf',
+      filename: this.invoiceNumber+'.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
