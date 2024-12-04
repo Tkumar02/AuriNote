@@ -12,6 +12,7 @@ export class ViewPensionsComponent {
 
   userEmail = '';
   allPensions: any;
+  transactions: any;
   view: boolean = false;
   transaction: Transact = {
     user: '',
@@ -19,8 +20,10 @@ export class ViewPensionsComponent {
     newValue: 0,
     date: new Date(),
     amount: 0,
-    id: '',
   }
+  inputBox: boolean = false;
+  showInput: number = -1;
+  addAmount: number = 0;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -48,10 +51,30 @@ export class ViewPensionsComponent {
 
   add(i:number){
     console.log(this.allPensions[i].id)
+    this.showInput = i
   }
 
-  sendTransaction(i:number){
+  sendTransaction(i:number,num:string){
     this.transaction.user = this.userEmail
-    this.transaction.id = this.allPensions[i].id
+    this.transaction.initialValue = this.allPensions[i].total
+    this.transaction.amount = parseFloat(num)
+    if(this.transaction.initialValue){
+      this.transaction.newValue = this.transaction.initialValue + this.transaction.amount
+    }
+    console.log(this.transaction)
+    this.pService.addTransaction(this.allPensions[i].id,this.transaction)
+    if(this.transaction.newValue){
+      this.pService.updateAmount(this.transaction.newValue,this.allPensions[i].id)
+    }
+  }
+
+  close(){
+    this.showInput = -1
+  }
+
+  viewTransactions(i:number){
+    this.pService.viewTransactions(this.allPensions[i].id).subscribe(val=>{
+      this.transactions = val
+    })
   }
 }

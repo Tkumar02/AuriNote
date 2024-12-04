@@ -9,22 +9,67 @@
   </div>
 </div>
 
-<div *ngIf="view">
+<div *ngIf="allPensions && allPensions.length<1">
+  No pensions to show. Please add a pension provider to start.
+</div>
+
+<div *ngIf="view && allPensions && allPensions.length>0" class="table-container">
   <table class="table table-striped">
     <thead>
-      <th>Pension Name</th>
-      <th>Total</th>
-      <th>Actions</th>
+      <tr>
+        <th>Pension Provider</th>
+        <th>Total Contributions</th>
+        <th>Actions</th>
+      </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let pension of allPensions; let i=index">
-        <td>{{pension.name}}</td>
-        <td>{{pension.total}}</td>
+      <tr *ngFor="let pension of allPensions; let i = index">
+        <td>{{ pension.name }}</td>
+        <td>£{{ pension.total }}</td>
         <td>
-          <button (click)="add(i)">Add</button>
-          <button>Close</button>
+          <button class="btn btn-add" (click)="add(i)">Add</button>
+          <button class="btn btn-info" data-toggle="modal" data-target="#transactionsModal" (click)="viewTransactions(i)">View Transactions</button>
+
+          <!-- Modal HTML Structure -->
+          <div class="modal fade" id="transactionsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                  <h5 class="modal-title" id="myModalLabel">Transactions</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+                  </div>
+                  <div class="modal-body">
+                      <div>
+                        <table>
+                          <thead>
+                            <th>Date</th>
+                            <th>Contribution</th>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let transaction of transactions">
+                              <td>{{transaction.date.toDate() | date}}</td>
+                              <td>£{{transaction.amount}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                  </div>
+              </div>
+              </div>
+          </div>
+
+          <div *ngIf="showInput === i" class="input-group">
+            <input #amountInput type="number" placeholder="Enter amount">
+            <button class="btn btn-confirm" (click)="sendTransaction(i, amountInput.value)">Confirm</button>
+            <button class="btn btn-close" (click)="close()">Close</button>
+          </div>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
+

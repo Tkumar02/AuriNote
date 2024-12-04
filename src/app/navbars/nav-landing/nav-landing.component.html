@@ -24,7 +24,7 @@
                 <a class="nav-link" href="#">About Us</a>
             </li>
             <li class="nav-item">
-                <a *ngIf="isLoggedIn$ | async" class="nav-link" routerLink="summary">Summary</a>
+                <a *ngIf="isLoggedIn$ | async" class="nav-link" routerLink="home">Invoices</a>
             </li>
             <li class="nav-item">
                 <a *ngIf="!(isLoggedIn$ | async)" class="nav-link" routerLink="login">Log In</a>
@@ -33,10 +33,13 @@
                 <a *ngIf="!(isLoggedIn$ | async)" class="nav-link" routerLink="signup">Sign Up</a>
             </li>
             <li class="nav-item">
-                <a *ngIf="isLoggedIn$ | async" class="nav-link" routerLink="create">Create Invoice</a>
+                <a *ngIf="isLoggedIn$ | async" class="nav-link" routerLink="/summary-funds">Investments</a>
             </li>
             <li class="nav-item">
-                <a *ngIf="isLoggedIn$ | async" class="nav-link" routerLink="edit">Edit Details</a>
+                <a *ngIf="isLoggedIn$ | async" class="nav-link" routerLink="/summary-pensions">Pensions</a>
+            </li>
+            <li class="nav-item">
+                <a *ngIf="isLoggedIn$ | async" class="nav-link" routerLink="edit">Edit Business Details</a>
             </li>
             <li class="nav-item">
                 <a *ngIf="isLoggedIn$ | async" class="nav-link sign-out" (click)="signOut()">Sign Out</a>

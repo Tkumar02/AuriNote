@@ -4,8 +4,86 @@
     <p>Add a fund with new investments</p>
   </div>
   <div class="card" (click)="onAction('edit')">
-    <h2>View All</h2>
-    <p>View and edit existing funds and any changes in unit prices</p>
+    <h2>View Stock Trends</h2>
+    <p>View stock trends with ticker symbol for the last seven days</p>
   </div>
+  <div class="card" (click)="onAction('view')">
+    <h2>View Funds</h2>
+    <p>View and edit funds</p>
+  </div>
+</div>
+
+<div *ngIf="allInvestments && allInvestments.length<1">
+  No investments to show. Please add an investment fund to start.
+</div>
+
+<div *ngIf="allInvestments && allInvestments.length>0" class="table-container">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Fund Name</th>
+        <th>Total Input</th>
+        <th>Total Units</th>
+        <th>Type</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let investment of allInvestments; let i = index">
+        <td>{{ investment.name }}</td>
+        <td>£{{investment.totalPrice}}</td>
+        <td>{{investment.totalUnits}}</td>
+        <td *ngIf="investment.income">Income</td>
+        <td *ngIf="investment.accumulative">Accumulative</td>
+        <td>
+          <button class="btn btn-primary">Update bought</button>
+          <button class="btn btn-warning">Update Sell</button>
+          <button class="btn btn-info" data-toggle="modal" data-target="#transactionsModal">View Transactions</button>
+
+          <!-- Modal HTML Structure -->
+          <div class="modal fade" id="transactionsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                  <h5 class="modal-title" id="myModalLabel">Transactions</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+                  </div>
+                  <div class="modal-body">
+                      <div>
+                        <table>
+                          <thead>
+                            <th>Date</th>
+                            <th>Type of transaction</th>
+                            <th>Units</th>
+                            <th>Value</th>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>date</td>
+                              <td>amount</td>
+                              <td>units</td>
+                              <td>value</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                  </div>
+              </div>
+              </div>
+          </div>
+
+          <div *ngIf="showInput === i" class="input-group">
+            <input #amountInput type="number" placeholder="Enter amount">
+            <button class="btn btn-confirm">Confirm</button>
+            <button class="btn btn-close">Close</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
   

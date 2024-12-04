@@ -39,7 +39,6 @@ export interface Transact {
     amount?:number;
     date?: Date;
     newValue?:number;
-    id: string;
     user: string;
 }
 

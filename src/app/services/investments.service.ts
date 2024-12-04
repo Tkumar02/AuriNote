@@ -15,4 +15,8 @@ export class InvestmentsService {
     const id = this.afs.createId();
     return this.afs.collection('investments').doc(id).set({id,...form})
   }
+
+  viewInvestments(user:string){
+    return this.afs.collection('investments', ref=>ref.where('user','==',user)).valueChanges()
+  }
 }

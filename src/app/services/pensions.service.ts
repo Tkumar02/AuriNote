@@ -17,4 +17,19 @@ export class PensionsService {
   viewPensions(user:string){
     return this.afs.collection('pensions',ref=>ref.where('user','==',user)).valueChanges()
   }
+
+  viewTransactions(userId:string){
+    const pensionDoc = this.afs.collection('pensions').doc(userId);
+    return pensionDoc.collection('transactions').valueChanges()
+  }
+
+  addTransaction(userId:string,data:any){
+    const pensionDoc = this.afs.collection('pensions').doc(userId);
+    const id = this.afs.createId();
+    return pensionDoc.collection('transactions').doc(id).set({id,...data})
+  }
+
+  updateAmount(newValue:number,id:string){
+    return this.afs.collection('pensions').doc(id).update({total:newValue})
+  }
 }
