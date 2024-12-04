@@ -1,0 +1,30 @@
+<div class="card-container">
+  <div class="card" routerLink="/add-pension">
+    <h2>Add New</h2>
+    <p>Add a pension</p>
+  </div>
+  <div class="card">
+    <h2>View All</h2>
+    <p (click)="viewPensions()">View and edit existing pensions</p>
+  </div>
+</div>
+
+<div *ngIf="view">
+  <table class="table table-striped">
+    <thead>
+      <th>Pension Name</th>
+      <th>Total</th>
+      <th>Actions</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pension of allPensions; let i=index">
+        <td>{{pension.name}}</td>
+        <td>{{pension.total}}</td>
+        <td>
+          <button (click)="add(i)">Add</button>
+          <button>Close</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

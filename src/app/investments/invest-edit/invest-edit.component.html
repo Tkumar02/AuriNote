@@ -1,0 +1,8 @@
+<div class="text-center d-flex flex-column p-5 g-5">
+    <h4>View Trend of Stock Prices</h4>
+    <div>
+        <label for="isin">Ticker Symbol: </label>
+        <input class="ml-2" type="text" name="isin" [(ngModel)]="isin">
+    </div>
+    <button (click)="fetchPrices()">Show trend</button>
+</div>

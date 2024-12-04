@@ -8,6 +8,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +22,12 @@ import { HomeComponent } from './landing/home/home.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { SummaryComponent } from './summary/summary.component';
 import { InvoicePreviewComponent } from './invoice-preview/invoice-preview.component';
+import { InvestSummaryComponent } from './investments/invest-summary/invest-summary.component';
+import { InvestAddComponent } from './investments/invest-add/invest-add.component';
+import { InvestEditComponent } from './investments/invest-edit/invest-edit.component';
+import { AddPensionComponent } from './pensions/add-pension/add-pension.component';
+import { EditPensionComponent } from './pensions/edit-pension/edit-pension.component';
+import { ViewPensionsComponent } from './pensions/view-pensions/view-pensions.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +40,13 @@ import { InvoicePreviewComponent } from './invoice-preview/invoice-preview.compo
     HomeComponent,
     AboutUsComponent,
     SummaryComponent,
-    InvoicePreviewComponent
+    InvoicePreviewComponent,
+    InvestSummaryComponent,
+    InvestAddComponent,
+    InvestEditComponent,
+    AddPensionComponent,
+    EditPensionComponent,
+    ViewPensionsComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +55,8 @@ import { InvoicePreviewComponent } from './invoice-preview/invoice-preview.compo
     AngularFirestoreModule,
     AngularFireAuthModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [
     provideAnimations(),

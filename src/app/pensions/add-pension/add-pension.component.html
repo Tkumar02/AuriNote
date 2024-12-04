@@ -1,0 +1,56 @@
+<div class="form-container">
+    <h1>Add Pension</h1>
+    <form (ngSubmit)="onSubmit(pensionForm)" #pensionForm="ngForm">
+      <div>
+        <label for="name">Pension Name:</label>
+        <input
+          type="text"
+          id="name"
+          [(ngModel)]="userForm.name"
+          name="name"
+          required
+        />
+      </div>
+      
+      <div>
+        <label for="type">Type:</label>
+        <input
+          type="text"
+          id="type"
+          [(ngModel)]="userForm.type"
+          name="type"
+        />
+      </div>
+      <div>
+        <label for="total">Total:</label>
+        <input
+          type="number"
+          id="total"
+          [(ngModel)]="userForm.total"
+          name="total"
+          required
+        />
+      </div>
+      <div>
+        <label for="memberNumber">Membership Number:</label>
+        <input
+          type="text"
+          id="memberNumber"
+          [(ngModel)]="userForm.membershipNumber"
+          name="memberNumber"
+          required
+        />
+      </div>
+      <div>
+        <label for="notes">Notes:</label>
+        <textarea
+          type="text"
+          id="notes"
+          [(ngModel)]="userForm.notes"
+          name="notes"
+          >
+        </textarea>
+      </div>
+      <button type="submit" [disabled]="pensionForm.invalid">Submit</button>
+    </form>
+  </div>
