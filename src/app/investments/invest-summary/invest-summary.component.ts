@@ -13,6 +13,8 @@ export class InvestSummaryComponent {
   allInvestments: any;
   userEmail: string = ''
   showInput: number = -1
+  boughtInput: boolean = false;
+  sellInput: boolean = false;
 
   constructor(
     private router: Router,
@@ -42,10 +44,42 @@ export class InvestSummaryComponent {
   }
 
   viewInvestments(){
-    this.iService.viewInvestments(this.userEmail).subscribe(val=>{
-      this.allInvestments = val
-      console.log(this.allInvestments)
-    })
+    this.allInvestments = [
+      {name:'felix', totalPrice:1000, totalUnits:10},
+      {name:'caesare', totalPrice:3000, totalUnits:20}
+    ]
+    // this.iService.viewInvestments(this.userEmail).subscribe(val=>{
+    //   this.allInvestments = val
+    //   console.log(this.allInvestments)
+    // })
+  }
+
+  bought(num:number, units:number, i:number){
+    const transaction = {
+      id:'',
+      initialValue:0,
+      amount:0,
+      newValue:0,
+      additionalUnits:0,
+      date: new Date()
+    }
+    this.boughtInput = true;
+    transaction.additionalUnits = units;
+    transaction.amount = num;
+    transaction.newValue = this.allInvestments[i].totalPrice+num;
+  }
+
+  sold(num:number, units:number, i:number){
+    const transaction = {
+      id:'',
+      amount:0,
+      newAmount:0,
+      date: new Date(),
+      reducedUnits:0,
+    }
+    this.sellInput = true;
+    transaction.amount = num;
+    transaction.newAmount = this.allInvestments[i].totalPrice - num;
   }
 
   async getCurrentUserEmail() {
