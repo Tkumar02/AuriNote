@@ -23,8 +23,8 @@ export class PensionsService {
     return pensionDoc.collection('transactions').valueChanges()
   }
 
-  addTransaction(userId:string,data:any){
-    const pensionDoc = this.afs.collection('pensions').doc(userId);
+  addTransaction(docId:string,data:any){
+    const pensionDoc = this.afs.collection('pensions').doc(docId);
     const id = this.afs.createId();
     return pensionDoc.collection('transactions').doc(id).set({id,...data})
   }

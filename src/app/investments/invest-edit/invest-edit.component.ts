@@ -13,12 +13,14 @@ export class InvestEditComponent {
   isin: string = '';
   prices: any[] = [];
   date: string = ''
+  show: boolean = false;
 
   constructor(
     private http: HttpClient
   ){}
 
   fetchPrices(){
+    this.show = true
     const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${this.isin}&apikey=${this.apiKey}`
 
     this.http.get<any>(url).subscribe(

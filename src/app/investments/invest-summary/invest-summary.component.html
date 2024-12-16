@@ -18,11 +18,11 @@
 </div>
 
 <div *ngIf="allInvestments && allInvestments.length>0" class="table-container">
-  <table class="table table-striped">
+  <table class="responsive-table table table-striped">
     <thead>
       <tr>
         <th>Fund Name</th>
-        <th>Total Input</th>
+        <th>Total Invested</th>
         <th>Total Units</th>
         <th>Type</th>
         <th>Actions</th>
@@ -33,12 +33,18 @@
         <td>{{ investment.name }}</td>
         <td>£{{investment.totalPrice}}</td>
         <td>{{investment.totalUnits}}</td>
-        <td *ngIf="investment.income">Income</td>
-        <td *ngIf="investment.accumulative">Accumulative</td>
+        <td>{{investment.income ? 'Income' : "Accumulative"}}</td>
         <td>
-          <button class="btn btn-primary">Update bought</button>
+          <button class="btn btn-primary" (click)="openBuy(i)">Update Buy</button>
+          <div *ngIf="boughtInput==i" class="d-flex flex-column align-items-center">
+            <label for="units">Price Per Unit</label>
+            <input type="number" name="units" id="units" #unitsInput>
+            <label for="price">Total price</label>
+            <input type="number" name="price" id="price" #priceInput>
+            <button class="btn btn-success" (click)="bought(priceInput.value,unitsInput.value,i)">Confirm</button>
+          </div>
           <button class="btn btn-warning">Update Sell</button>
-          <button class="btn btn-info" data-toggle="modal" data-target="#transactionsModal">View Transactions</button>
+          <button class="btn btn-info" data-toggle="modal" data-target="#transactionsModal">View</button>
 
           <!-- Modal HTML Structure -->
           <div class="modal fade" id="transactionsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

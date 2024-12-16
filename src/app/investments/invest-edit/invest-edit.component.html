@@ -5,4 +5,9 @@
         <input class="ml-2" type="text" name="isin" [(ngModel)]="isin">
     </div>
     <button (click)="fetchPrices()">Show trend</button>
+    <div *ngIf="show">
+        <div *ngFor="let price of prices; let i = index">
+            <p>{{price.date}} - {{price.price}}</p>
+        </div>
+    </div>
 </div>
