@@ -16,6 +16,7 @@ export interface InvestForm {
     isin?: string;
     date?: Date;
     totalPrice?:number;
+    pricePerUnit?:number;
     totalUnits?:number;
     accumulative?: boolean;
     income?: boolean;

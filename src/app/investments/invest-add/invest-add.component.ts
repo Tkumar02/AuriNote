@@ -20,11 +20,12 @@ export class InvestAddComponent {
     isin: '',
     date: new Date(),
     totalPrice: 0,
-    totalUnits:0,
+    pricePerUnit:0,
     risk: '',
     accumulative: false,
     income: false,
     price:0,
+    totalUnits:0,
     user:'',
   };
 
@@ -39,8 +40,8 @@ export class InvestAddComponent {
   }
 
   onSubmit(form:NgForm){
-    if(this.userForm.totalPrice && this.userForm.totalUnits){
-      this.userForm.price = this.userForm.totalPrice / this.userForm.totalUnits
+    if(this.userForm.totalPrice && this.userForm.pricePerUnit){
+      this.userForm.totalUnits = this.userForm.totalPrice / this.userForm.pricePerUnit
     }
     this.userForm.user = this.userEmail
     console.log(this.userForm)

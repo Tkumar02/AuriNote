@@ -58,7 +58,7 @@ export class InvestSummaryComponent {
     this.boughtInput = i;
   }
 
-  bought(price:string, pricePerUnit:string, i:number){
+  bought(price:string, pricePerUnit:string, date:any, i:number){
     const transaction = {
       investId: this.allInvestments[i].id,
       initialInvested:this.allInvestments[i].totalPrice,
@@ -66,37 +66,35 @@ export class InvestSummaryComponent {
       newInvested:0,
       additionalUnits:0,
       pricePerUnit:0,
-      date: new Date()
+      date: date
     }
     console.log(this.boughtInput)
-    transaction.pricePerUnit = parseInt(pricePerUnit);
+    transaction.pricePerUnit = parseFloat(pricePerUnit);
     transaction.transactionAmount = parseFloat(price);
-    transaction.additionalUnits =  transaction.transactionAmount / parseInt(pricePerUnit)
+    transaction.additionalUnits =  transaction.transactionAmount / parseFloat(pricePerUnit)
     const totalNewUnits = transaction.additionalUnits + this.allInvestments[i].totalUnits
     transaction.newInvested = this.allInvestments[i].totalPrice+transaction.transactionAmount;
     this.iService.addTransaction(transaction.investId,transaction)
     this.iService.updateInvested(transaction.newInvested,totalNewUnits,transaction.investId)
   }
 
-  sold(price:string, pricePerUnit:string, i:number){
+  sold(units:string, pricePerUnit:string, i:number){
     const transaction = {
       investId: this.allInvestments[i].id,
       initialInvested:this.allInvestments[i].totalPrice,
-      transactionAmount:0,
-      newInvested:0,
-      additionalUnits:0,
+      unitsSold:0,
       pricePerUnit:0,
       date: new Date(),
-      net: 0,
+      soldAmount: 0,
     }
     console.log(this.boughtInput)
-    transaction.pricePerUnit = parseInt(pricePerUnit);
-    transaction.transactionAmount = parseFloat(price);
-    transaction.additionalUnits =  transaction.transactionAmount / parseInt(pricePerUnit)
-    const totalNewUnits =  this.allInvestments[i].totalUnits - transaction.additionalUnits
-    transaction.net = this.allInvestments[i].totalPrice - transaction.transactionAmount;
-    this.iService.addTransaction(transaction.investId,transaction)
-    this.iService.updateInvested(transaction.newInvested,totalNewUnits,transaction.investId)
+    transaction.pricePerUnit = parseFloat(pricePerUnit);
+    transaction.unitsSold = parseFloat(units)
+    transaction.soldAmount = transaction.pricePerUnit * transaction.unitsSold;
+    const totalNewUnits =  this.allInvestments[i].totalUnits - transaction.unitsSold
+    transaction.soldAmount = transaction.unitsSold * transaction.pricePerUnit;
+    //this.iService.addTransaction(transaction.investId,transaction)
+    //this.iService.updateInvested(transaction.initialInvested,totalNewUnits,transaction.investId)
   }
 
   sold1(num:number, units:number, i:number){

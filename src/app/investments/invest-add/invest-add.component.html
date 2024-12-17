@@ -62,14 +62,24 @@
         />
       </div>
       <div>
-        <label for="totalUnits">Total Units:</label>
+        <label for="totalUnits">Price per Unit:</label>
         <input
           type="number"
           id="totalUnits"
-          [(ngModel)]="userForm.totalUnits"
+          [(ngModel)]="userForm.pricePerUnit"
           name="totalUnits"
           required
           min="1"
+        />
+      </div>
+      <div>
+        <label for="date">Date:</label>
+        <input
+          type="date"
+          id="date"
+          [(ngModel)]="userForm.date"
+          name="date"
+          required
         />
       </div>
       <button type="submit" [disabled]="fundForm.invalid">Submit</button>

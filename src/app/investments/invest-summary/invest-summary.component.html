@@ -32,7 +32,7 @@
       <tr *ngFor="let investment of allInvestments; let i = index">
         <td>{{ investment.name }}</td>
         <td>£{{investment.totalPrice}}</td>
-        <td>{{investment.totalUnits}}</td>
+        <td>{{investment.totalUnits | number:'1.2-2'}}</td>
         <td>{{investment.income ? 'Income' : "Accumulative"}}</td>
         <td>
           <button class="btn btn-primary" (click)="openBuy(i)">Update Buy</button>
@@ -41,7 +41,9 @@
             <input type="number" name="units" id="units" #unitsInput>
             <label for="price">Total price</label>
             <input type="number" name="price" id="price" #priceInput>
-            <button class="btn btn-success" (click)="bought(priceInput.value,unitsInput.value,i)">Confirm</button>
+            <label for="date">Date</label>
+            <input type="date" name="date" id="date" #dateInput>
+            <button class="btn btn-success" (click)="bought(priceInput.value,unitsInput.value,dateInput.value,i)">Confirm</button>
           </div>
           <button class="btn btn-warning">Update Sell</button>
           <button class="btn btn-info" data-toggle="modal" data-target="#transactionsModal">View</button>
