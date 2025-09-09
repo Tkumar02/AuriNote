@@ -1,8 +1,26 @@
 <div class="main-container text-center">
     <h2>Summary Page</h2>
-    <button class="btn btn-info" (click)="viewInvoices()">View Invoices</button>
+    <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 30px;">
+        <button class="btn btn-info" (click)="viewInvoices()">View All Invoices</button>
+        <button class="btn btn-info" (click)="viewSelectedInvoices()">Select Date Range for Invoices</button>
+    </div>
+    <div *ngIf="showDatebox && !showBox">
+        <div style="margin-bottom: 10px; font-weight: 700;">
+            {{message}}<br>
+        </div>
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate"><br>
+
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate"><br>
+        <button class="btn btn-success" (click)="retrieveInvoices(startDate,endDate)">Go</button>
+        <div *ngIf="totalSum>0 && invoiceTotal>0">
+            Invoice Total: £{{totalSum}}<br>
+            Number of invoices: {{invoiceTotal}}
+        </div>
+    </div>
     <div>
-        <div *ngIf="showBox">No invoices at present</div>
+        <div *ngIf="showBox && !dateBox">No invoices at present</div>
         <table *ngIf="invoices && invoices.length>0" class="table table-striped">
             <thead>
                 <tr>
@@ -13,111 +31,138 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            
+
             <tbody>
                 <tr *ngFor="let invoice of invoices; let i=index">
                     <td>{{invoice.date | date}}</td>
                     <td>{{invoice.clientName}} - {{invoice.invoiceID}}</td>
                     <td>£{{invoice.total | number:'1.2-2'}}</td>
-                    <td [ngStyle]="{'backgroundColor': invoice.paid ? 'gold' : 'pink'}">{{invoice.paid ? 'Paid: £' + (invoice.final | number:'1.2-2') : 'Pending'}}</td>
+                    <td [ngStyle]="{'backgroundColor': invoice.paid ? 'gold' : 'pink'}">{{invoice.paid ? 'Paid: £' +
+                        (invoice.final | number:'1.2-2') : 'Pending'}}</td>
                     <td class="d-flex flex-column actions">
 
-                        <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#paymentModal" (click)="setSelectedInvoice(i)">Payment</button>
+                        <button type="button" class="btn btn-success mb-2" data-toggle="modal"
+                            data-target="#paymentModal" (click)="setSelectedInvoice(i)">Payment</button>
                         <!-- Modal HTML Structure -->
-                        <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="myModalLabel">Edit Payment Details for {{selectedInvoice && selectedInvoice.invoiceID ? selectedInvoice.invoiceID : ''}}</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="myModalLabel">Edit Payment Details for
+                                            {{selectedInvoice && selectedInvoice.invoiceID ? selectedInvoice.invoiceID :
+                                            ''}}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Choose payment options
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button *ngIf="!editInput" type="button" class="btn btn-success"
+                                            data-dismiss="modal" (click)="confirmFull(selectedInvoice)">Confirm full
+                                            payment</button>
+                                        <button *ngIf="!editInput" type="button" class="btn btn-warning"
+                                            (click)="changePayment()">Edit Payment</button>
+                                        <label *ngIf="editInput" for="newPayment">Enter new payment amount: </label>
+                                        <input *ngIf="editInput" [(ngModel)]="newPayment" type="number"
+                                            name="newPayment">
+                                        <button *ngIf="editInput" class="btn btn-success"
+                                            (click)="editPayment(selectedInvoice.id)" data-dismiss="modal">Confirm new
+                                            payment</button>
+                                    </div>
                                 </div>
-                                <div class="modal-body">
-                                    Choose payment options
-                                </div>
-                                <div class="modal-footer">
-                                    <button *ngIf="!editInput" type="button" class="btn btn-success" data-dismiss="modal" (click)="confirmFull(selectedInvoice)">Confirm full payment</button>
-                                    <button *ngIf="!editInput" type="button" class="btn btn-warning" (click)="changePayment()">Edit Payment</button>
-                                    <label *ngIf="editInput" for="newPayment">Enter new payment amount: </label>
-                                    <input *ngIf="editInput" [(ngModel)]="newPayment" type="number" name="newPayment">
-                                    <button *ngIf="editInput" class="btn btn-success" (click)="editPayment(selectedInvoice.id)" data-dismiss="modal">Confirm new payment</button>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                  
-
-                        <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#notesModal" (click)="setSelectedInvoice(i)">View Notes</button>
-                        <!-- Modal HTML Structure -->
-                        <div class="modal fade" id="notesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="myModalLabel">Notes - {{selectedInvoice ? selectedInvoice.invoiceID : ''}}</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                </div>
-                                <div class="modal-body">
-                                    {{selectedInvoice && selectedInvoice.notes ? selectedInvoice.notes : 'There are no notes attached to this invoice'}}
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="showNotes=false">Close</button>
-                                    <button *ngIf="!showNotes" type="button" class="btn btn-warning" (click)="showNotes=!showNotes">Edit notes</button>
-                                    <textarea *ngIf="showNotes" [(ngModel)]="selectedInvoice.notes"></textarea>
-                                    <button *ngIf="showNotes" class="btn btn-success" (click)="submitNotes(selectedInvoice.id,selectedInvoice.notes)" data-dismiss="modal">Submit Notes</button>
-                                </div>
-                            </div>
                             </div>
                         </div>
 
-                        <!-- Button to trigger modal -->
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" (click)="setSelectedInvoice(i)">Delete</button>
+
+                        <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#notesModal"
+                            (click)="setSelectedInvoice(i)">View Notes</button>
                         <!-- Modal HTML Structure -->
-                        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="notesModal" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="myModalLabel">Delete Invoice</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="myModalLabel">Notes - {{selectedInvoice ?
+                                            selectedInvoice.invoiceID : ''}}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{selectedInvoice && selectedInvoice.notes ? selectedInvoice.notes : 'There are
+                                        no notes attached to this invoice'}}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                            (click)="showNotes=false">Close</button>
+                                        <button *ngIf="!showNotes" type="button" class="btn btn-warning"
+                                            (click)="showNotes=!showNotes">Edit notes</button>
+                                        <textarea *ngIf="showNotes" [(ngModel)]="selectedInvoice.notes"></textarea>
+                                        <button *ngIf="showNotes" class="btn btn-success"
+                                            (click)="submitNotes(selectedInvoice.id,selectedInvoice.notes)"
+                                            data-dismiss="modal">Submit Notes</button>
+                                    </div>
                                 </div>
-                                <div class="modal-body">
-                                This will permanently remove your invoice, are you sure you want to continue?
-                                </div>
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" (click)="deleteInvoice(selectedInvoice.id)" class="btn btn-danger" data-dismiss="modal">Confirm Delete</button>
-                                </div>
-                            </div>
                             </div>
                         </div>
 
                         <!-- Button to trigger modal -->
-                        <button type="button" class="btn btn-info mt-2" data-toggle="modal" data-target="#pdfModal"  (click)="generatePDF(i)">Generate PDF</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
+                            (click)="setSelectedInvoice(i)">Delete</button>
                         <!-- Modal HTML Structure -->
-                        <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="myModalLabel">View Invoice</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="myModalLabel">Delete Invoice</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        This will permanently remove your invoice, are you sure you want to continue?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="button" (click)="deleteInvoice(selectedInvoice.id)"
+                                            class="btn btn-danger" data-dismiss="modal">Confirm Delete</button>
+                                    </div>
                                 </div>
-                                <div class="modal-body">
-                                    <app-invoice-preview *ngIf="childPDF" [message]="selectedInvoice"></app-invoice-preview>
-                                </div>
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
                             </div>
                         </div>
-                        
-                        
+
+                        <!-- Button to trigger modal -->
+                        <button type="button" class="btn btn-info mt-2" data-toggle="modal" data-target="#pdfModal"
+                            (click)="generatePDF(i)">Generate PDF</button>
+                        <!-- Modal HTML Structure -->
+                        <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="myModalLabel">View Invoice</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <app-invoice-preview *ngIf="childPDF"
+                                            [message]="selectedInvoice"></app-invoice-preview>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
 
                     </td>
                 </tr>
@@ -125,12 +170,3 @@
         </table>
     </div>
 </div>
-
-
-
-
-
-
-
-    
-

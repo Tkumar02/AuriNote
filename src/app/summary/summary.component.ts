@@ -18,12 +18,19 @@ export class SummaryComponent {
   newPayment: number = 0;
   showNotes: boolean = false;
   childPDF: boolean = false;
+  showDatebox: boolean = false;
+  dateBox: boolean = false;
+  startDate: any;
+  endDate: any;
+  message: string = 'Summary'
+  totalSum: number = 0
+  invoiceTotal: number = 0
 
   constructor(
-    private iservice: InvoiceService, 
+    private iservice: InvoiceService,
     private afAuth: AngularFireAuth,
     private toast: ToastrService,
-  ) {}
+  ) { }
 
   async getCurrentUserEmail() {
     const user = await this.afAuth.currentUser;
@@ -36,14 +43,69 @@ export class SummaryComponent {
     this.getCurrentUserEmail()
   }
 
-  viewInvoices(){
-    this.iservice.getUserInvoices(this.userEmail).subscribe(val=>{
+  viewInvoices() {
+    this.showDatebox = false;
+    this.iservice.getUserInvoices(this.userEmail).subscribe(val => {
       this.invoices = val
-      if(this.invoices.length<1){
+      if (this.invoices.length < 1) {
         this.showBox = true
       }
       this.invoices.sort((a: { date: string | number | Date; }, b: { date: string | number | Date; }) => new Date(b.date).getTime() - new Date(a.date).getTime());
     })
+  }
+
+  retrieveInvoices(startDate: any, endDate: any) {
+    // Check if both dates are provided.
+    if (startDate && endDate) {
+      // If dates are provided, clear the message box state.
+      this.dateBox = false;
+      this.message = 'Summary'
+
+      this.iservice.getUserInvoices(this.userEmail).subscribe(val => {
+        const allInvoices = val as any[];
+
+        // Convert start and end dates to Date objects for proper comparison
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        // Set the end date's time to the end of the day to include all invoices on that date
+        end.setHours(23, 59, 59, 999);
+
+        this.invoices = allInvoices.filter(invoice => {
+          const invoiceDate = new Date(invoice.date);
+          return invoiceDate.getTime() >= start.getTime() && invoiceDate.getTime() <= end.getTime();
+        });
+
+        // If no invoices are found within the date range, show the message box
+        if (this.invoices.length < 1) {
+          this.dateBox = true;
+        }
+
+        // Calculate the total sum of filtered invoices
+        const totalSum = this.invoices.reduce((sum: number, invoice: any) => {
+          return sum + invoice.total;
+        }, 0);
+        console.log(totalSum);
+        this.totalSum = totalSum
+        this.invoiceTotal = this.invoices.length
+
+        // Sort the filtered invoices
+        this.invoices.sort((a: { date: string | number | Date; }, b: { date: string | number | Date; }) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      });
+    } else {
+      // If a date is missing, clear the invoices and show the message box
+      this.invoices = [];
+      this.dateBox = true;
+      this.message = "Please select a date range";
+      this.totalSum = 0
+      this.invoiceTotal = 0
+    }
+  }
+
+
+  viewSelectedInvoices() {
+    this.showDatebox = true;
+    this.showBox = false;
   }
 
   setSelectedInvoice(index: number) {
@@ -51,32 +113,32 @@ export class SummaryComponent {
     console.log(this.editInput)
   }
 
-  deleteInvoice(id:string){
-    this.iservice.deleteInvoice(id).then(()=>{
+  deleteInvoice(id: string) {
+    this.iservice.deleteInvoice(id).then(() => {
       this.toast.success('Invoice successfully deleted')
     })
   }
 
-  confirmFull(invoice:any){
+  confirmFull(invoice: any) {
     const updatedData = {
       final: invoice.total,
       paid: true
     }
-    this.iservice.updateInvoice(invoice.id,updatedData).then(()=>{
+    this.iservice.updateInvoice(invoice.id, updatedData).then(() => {
       this.toast.success('Payment status submitted successfully')
     })
   }
 
-  changePayment(){
+  changePayment() {
     this.editInput = !this.editInput;
   }
 
-  editPayment(id:string){
+  editPayment(id: string) {
     const updatedData = {
-      paid:true,
+      paid: true,
       final: this.newPayment
     }
-    this.iservice.updateInvoice(id,updatedData).then(()=>{
+    this.iservice.updateInvoice(id, updatedData).then(() => {
       this.newPayment = 0;
       this.toast.success('New payment saved')
     })
@@ -84,19 +146,19 @@ export class SummaryComponent {
     console.log(updatedData.final, this.editInput)
   }
 
-  submitNotes(id:string,newNotes:string){
+  submitNotes(id: string, newNotes: string) {
     console.log(id)
     const updatedData = {
       notes: newNotes
     }
-    this.iservice.updateInvoice(id,updatedData).then(()=>{
+    this.iservice.updateInvoice(id, updatedData).then(() => {
       this.toast.success('Notes updated successfully');
       this.showNotes = false;
       console.log('done')
     })
   }
 
-  generatePDF(index:number){
+  generatePDF(index: number) {
     this.selectedInvoice = this.invoices[index];
     this.childPDF = true;
     console.log(this.selectedInvoice.id)
