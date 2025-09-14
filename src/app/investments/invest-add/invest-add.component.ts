@@ -17,38 +17,39 @@ export class InvestAddComponent {
 
   userForm: InvestForm = {
     name: '',
-    isin: '',
+    identifier: '',
+    url: '',
     date: new Date(),
     totalPrice: 0,
-    pricePerUnit:0,
+    pricePerUnit: 0,
     risk: '',
     accumulative: false,
     income: false,
-    price:0,
-    totalUnits:0,
-    user:'',
+    price: 0,
+    totalUnits: 0,
+    user: '',
   };
 
   constructor(
     private investService: InvestmentsService,
     private toast: ToastrService,
     private afAuth: AngularFireAuth,
-  ){}
+  ) { }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     this.getCurrentUserEmail()
   }
 
-  onSubmit(form:NgForm){
-    if(this.userForm.totalPrice && this.userForm.pricePerUnit){
+  onSubmit(form: NgForm) {
+    if (this.userForm.totalPrice && this.userForm.pricePerUnit) {
       this.userForm.totalUnits = this.userForm.totalPrice / this.userForm.pricePerUnit
     }
     this.userForm.user = this.userEmail
     console.log(this.userForm)
-    this.investService.addInvest(this.userForm).then(()=>{
-        this.toast.success('Investment added successfully')
-        form.reset()
-      }
+    this.investService.addInvest(this.userForm).then(() => {
+      this.toast.success('Investment added successfully')
+      form.reset()
+    }
     )
   }
 

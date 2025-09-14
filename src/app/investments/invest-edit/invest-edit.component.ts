@@ -1,9 +1,9 @@
 
 import { Component, signal, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-
+import { FidelityService } from '../../services/fidelity.service';
+import { InvestmentsService } from '../../services/investments.service';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 @Component({
   selector: 'app-invest-edit',
   templateUrl: './invest-edit.component.html',
@@ -18,49 +18,55 @@ export class InvestEditComponent {
   date: string = ''
   show: boolean = false;
 
+  url: string = '';
+  priceResult: any;
+  userEmail: string = '';
+  allInvestments: any;
+  showSummary: boolean = false;
+
   constructor(
-    //private http: HttpClient
+    private fidelityService: FidelityService,
+    private http: HttpClient,
+    private iService: InvestmentsService,
+    private afAuth: AngularFireAuth,
   ) { }
 
-  //gemini code
-
-  private http = inject(HttpClient);
-
-  // Signals for state management
-  searchTerm = signal('');
-  result = signal<any | null>(null);
-  isLoading = signal(false);
-  errorMessage = signal<string | null>(null);
-
-  onSearch() {
-    this.errorMessage.set(null);
-    this.result.set(null);
-
-    const term = this.searchTerm().trim();
-    if (!term) {
-      this.errorMessage.set('Please enter a search term.');
-      return;
-    }
-
-    this.isLoading.set(true);
-
-    // Make a POST request to the Python API
-    this.http.post<any>('http://localhost:5001/api/findInvest', { search_term: term })
-      .subscribe({
-        next: (response) => {
-          this.result.set(response);
-          this.isLoading.set(false);
-        },
-        error: (error) => {
-          this.errorMessage.set(error.error?.error || 'An unexpected error occurred. Check the Python console for details.');
-          this.result.set(null);
-          this.isLoading.set(false);
-        }
-      });
+  ngOnInit(): void {
+    this.getCurrentUserEmail()
   }
 
-  //code ends
+  investSummary() {
+    this.showSummary = true;
+    this.showInvests()
+  }
 
+  async getCurrentUserEmail() {
+    const user = await this.afAuth.currentUser;
+    if (user) {
+      this.userEmail = user.email!;
+    }
+    console.log(this.userEmail)
+  }
+
+  fetchInvestPrice() {
+    if (!this.url) return;
+    this.fidelityService.getPrice(this.url).subscribe({
+      next: (res) => {
+        this.priceResult = res.price;
+        console.log(res);
+      },
+      error: (err) => {
+        console.error(err);
+        this.priceResult = 'Error fetching price';
+      }
+    });
+  }
+
+  showInvests() {
+    this.iService.viewInvestments(this.userEmail).subscribe(val => {
+      this.allInvestments = val;
+    })
+  }
 
   fetchPrices() {
     this.show = true

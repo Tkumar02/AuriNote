@@ -13,11 +13,12 @@ export interface Invoice {
 
 export interface InvestForm {
     name?: string;
-    isin?: string;
+    identifier?: string;
+    url: string;
     date?: Date;
-    totalPrice?:number;
-    pricePerUnit?:number;
-    totalUnits?:number;
+    totalPrice?: number;
+    pricePerUnit?: number;
+    totalUnits?: number;
     accumulative?: boolean;
     income?: boolean;
     risk?: string;
@@ -31,15 +32,15 @@ export interface PensionForm {
     total?: number;
     membershipNumber?: string;
     date?: Date;
-    notes?:string;
+    notes?: string;
     user?: string;
 }
 
 export interface Transact {
     initialValue?: number;
-    amount?:number;
+    amount?: number;
     date?: Date;
-    newValue?:number;
+    newValue?: number;
     user: string;
 }
 
