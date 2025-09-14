@@ -4,11 +4,11 @@
     <p>Add a fund with new investments</p>
   </div>
   <div class="card" (click)="onAction('edit')">
-    <h2>View Stock Trends</h2>
-    <p>View stock trends with ticker symbol for the last seven days</p>
+    <h2>View Stock / Fund Prices</h2>
+    <p>View current prices or trends with ticker symbol for the last seven days</p>
   </div>
   <div class="card" (click)="onAction('view')">
-    <h2>View Funds</h2>
+    <h2>Fund Transactions</h2>
     <p>View and edit funds</p>
   </div>
 </div>
@@ -43,45 +43,47 @@
             <input type="number" name="price" id="price" #priceInput>
             <label for="date">Date</label>
             <input type="date" name="date" id="date" #dateInput>
-            <button class="btn btn-success" (click)="bought(priceInput.value,unitsInput.value,dateInput.value,i)">Confirm</button>
+            <button class="btn btn-success"
+              (click)="bought(priceInput.value,unitsInput.value,dateInput.value,i)">Confirm</button>
           </div>
           <button class="btn btn-warning">Update Sell</button>
           <button class="btn btn-info" data-toggle="modal" data-target="#transactionsModal">View</button>
 
           <!-- Modal HTML Structure -->
-          <div class="modal fade" id="transactionsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
+          <div class="modal fade" id="transactionsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
               <div class="modal-content">
-                  <div class="modal-header">
+                <div class="modal-header">
                   <h5 class="modal-title" id="myModalLabel">Transactions</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                   </button>
+                </div>
+                <div class="modal-body">
+                  <div>
+                    <table>
+                      <thead>
+                        <th>Date</th>
+                        <th>Type of transaction</th>
+                        <th>Units</th>
+                        <th>Value</th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>date</td>
+                          <td>amount</td>
+                          <td>units</td>
+                          <td>value</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
-                  <div class="modal-body">
-                      <div>
-                        <table>
-                          <thead>
-                            <th>Date</th>
-                            <th>Type of transaction</th>
-                            <th>Units</th>
-                            <th>Value</th>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>date</td>
-                              <td>amount</td>
-                              <td>units</td>
-                              <td>value</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                  </div>
-                  <div class="modal-footer">
-                  </div>
+                </div>
+                <div class="modal-footer">
+                </div>
               </div>
-              </div>
+            </div>
           </div>
 
           <div *ngIf="showInput === i" class="input-group">
@@ -94,4 +96,3 @@
     </tbody>
   </table>
 </div>
-  
