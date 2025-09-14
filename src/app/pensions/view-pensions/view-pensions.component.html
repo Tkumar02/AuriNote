@@ -28,38 +28,65 @@
         <td>£{{ pension.total }}</td>
         <td>
           <button class="btn btn-add" (click)="add(i)">Add</button>
-          <button class="btn btn-info" data-toggle="modal" data-target="#transactionsModal" (click)="viewTransactions(i)">View Transactions</button>
+          <button class="btn btn-info" data-toggle="modal" data-target="#transactionsModal"
+            (click)="viewTransactions(i)">View
+            Transactions</button>
+          <button class="btn btn-warning" data-toggle="modal" data-target="#memModal" (click)="viewMem(i)">Membership
+            Number</button>
 
           <!-- Modal HTML Structure -->
-          <div class="modal fade" id="transactionsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
+          <div class="modal fade" id="transactionsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
               <div class="modal-content">
-                  <div class="modal-header">
+                <div class="modal-header">
                   <h5 class="modal-title" id="myModalLabel">Transactions</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                   </button>
+                </div>
+                <div class="modal-body">
+                  <div>
+                    <table>
+                      <thead>
+                        <th>Date</th>
+                        <th>Contribution</th>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let transaction of transactions">
+                          <td>{{transaction.date.toDate() | date}}</td>
+                          <td>£{{transaction.amount}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
-                  <div class="modal-body">
-                      <div>
-                        <table>
-                          <thead>
-                            <th>Date</th>
-                            <th>Contribution</th>
-                          </thead>
-                          <tbody>
-                            <tr *ngFor="let transaction of transactions">
-                              <td>{{transaction.date.toDate() | date}}</td>
-                              <td>£{{transaction.amount}}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                  </div>
-                  <div class="modal-footer">
-                  </div>
+                </div>
+                <div class="modal-footer">
+                </div>
               </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="memModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="myModalLabel">Membership Number</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div>
+                    Membeship Number: {{memNumber}}
+                    <div *ngIf="memNotes">Notes: {{memNotes}}</div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                </div>
               </div>
+            </div>
           </div>
 
           <div *ngIf="showInput === i" class="input-group">
@@ -72,4 +99,3 @@
     </tbody>
   </table>
 </div>
-
