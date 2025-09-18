@@ -13,7 +13,8 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 export class InvestAddComponent {
 
-  userEmail: string = ''
+  userEmail: string = '';
+  currencies: string[] = ['£', 'p', 'euro', '$'];
 
   userForm: InvestForm = {
     name: '',
@@ -21,6 +22,7 @@ export class InvestAddComponent {
     url: '',
     date: new Date(),
     totalPrice: 0,
+    currency: '£',
     pricePerUnit: 0,
     risk: '',
     accumulative: false,

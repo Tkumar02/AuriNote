@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class FidelityService {
 
   private apiUrl = 'https://fid-api-i90t.onrender.com/scrape'; // Your Render API URL
-
+  //private apiUrl = 'http://127.0.0.1:8000/scrape'
   constructor(private http: HttpClient) { }
 
   getPrice(url: string): Observable<any> {

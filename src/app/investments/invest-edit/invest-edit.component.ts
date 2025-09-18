@@ -17,12 +17,16 @@ export class InvestEditComponent {
   prices: any[] = [];
   date: string = ''
   show: boolean = false;
+  parseFloat = parseFloat;
 
-  url: string = '';
+  selectedInvestment: any;
   priceResult: any;
   userEmail: string = '';
   allInvestments: any;
+  currentInvestment: any;
   showSummary: boolean = false;
+  showPriceChange: boolean = false;
+  totalValue: string = '';
 
   constructor(
     private fidelityService: FidelityService,
@@ -45,15 +49,17 @@ export class InvestEditComponent {
     if (user) {
       this.userEmail = user.email!;
     }
-    console.log(this.userEmail)
   }
 
   fetchInvestPrice() {
-    if (!this.url) return;
-    this.fidelityService.getPrice(this.url).subscribe({
+    if (!this.selectedInvestment.url) return;
+    this.fidelityService.getPrice(this.selectedInvestment.url).subscribe({
       next: (res) => {
+        console.log(res)
+        this.currentInvestment = res;
         this.priceResult = res.price;
-        console.log(res);
+        this.totalValue = (this.calculateTotalValue(res.price, this.selectedInvestment.totalUnits, res.currency))
+        this.showPriceChange = true;
       },
       error: (err) => {
         console.error(err);
@@ -102,5 +108,20 @@ export class InvestEditComponent {
     prices = prices.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 7)
     this.prices = prices;
     console.log(this.prices)
+  }
+
+  calculateTotalValue(price: string, units: number, currency: string) {
+    console.log(price.charCodeAt(0))
+    const numberPrice = price.replace(/[^0-9.]/g, '');
+    const finalPrice = parseFloat(numberPrice)
+    if (currency == 'p') {
+      console.log('yes')
+      return (finalPrice * units / 100).toFixed(2)
+    }
+    else {
+      console.log('no')
+      const x = finalPrice * units
+      return (x).toFixed(2)
+    }
   }
 }

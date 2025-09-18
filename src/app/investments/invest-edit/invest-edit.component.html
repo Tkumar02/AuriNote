@@ -1,34 +1,51 @@
-<div class="container py-5">
+<div class="container py-5" style="align-items: center; justify-content: space-around;">
 
     <!-- Investments Section -->
-    <div class="card mb-4 shadow-sm">
+    <div class="mb-4 shadow-sm" style="background-color: lightslategray; margin-bottom: 20px;">
         <div class="card-body text-center">
             <h4 class="card-title mb-3">Investments</h4>
-            <button class="btn btn-success mb-3" (click)="investSummary()">View Investments</button>
+            <button class="btn btn-warning mb-3" (click)="investSummary()">View Investments</button>
 
-            <div *ngIf="showSummary" class="d-flex justify-content-center align-items-center gap-2 flex-wrap">
-                <select class="form-select w-auto" [(ngModel)]="url">
-                    <option *ngFor="let investment of allInvestments" [value]="investment.url">
+            <div *ngIf="showSummary" class="justify-content-center align-items-center gap-2 flex-wrap">
+                <select class="form-select w-auto rounded" [(ngModel)]="selectedInvestment"
+                    (change)="showPriceChange=false">
+                    <option *ngFor="let investment of allInvestments" [ngValue]="investment">
                         {{ investment.name }}
                     </option>
                 </select>
-                <button class="btn btn-primary" (click)="fetchInvestPrice()">Get Price</button>
+                <div style="margin-top: 10px;">
+                    <button class="btn btn-primary" (click)="fetchInvestPrice()">Get Price</button>
+                </div>
             </div>
 
-            <div *ngIf="priceResult" class="mt-3">
-                <p class="mb-0">Current Price: <strong>{{ priceResult }}</strong></p>
+            <div *ngIf="showPriceChange" class="mt-3">
+                <p class="mb-0">Current Price for <span>{{currentInvestment.name}}</span>:
+                    <strong><span>{{currentInvestment.currency}}</span>{{ priceResult
+                        }}</strong>
+                </p>
+                <p>Total Value Today: £{{totalValue}} </p>
+                <p>Upfront Investment:
+                    <span
+                        *ngIf="selectedInvestment.currency=='£'">{{selectedInvestment.currency}}</span>{{selectedInvestment.totalPrice}}<span
+                        *ngIf="selectedInvestment.currency=='p'">{{selectedInvestment.currency}}</span>
+                </p>
+                <p>Change: {{((parseFloat(totalValue) -
+                    selectedInvestment.totalPrice)/selectedInvestment.totalPrice*100).toFixed(2)}}%</p>
             </div>
         </div>
     </div>
 
     <!-- Stock Trend Section -->
-    <div class="card mb-4 shadow-sm">
-        <div class="card-body text-center">
+    <div class="mb-4 shadow-sm" style="background-color: darkgoldenrod; padding: 10px;">
+        <div class="text-center">
             <h4 class="card-title mb-3">View Trend of Stock Prices</h4>
-            <div class="d-flex justify-content-center align-items-center mb-3 flex-wrap gap-2">
+            <div class="d-flex flex-column align-items-center mb-3 flex-wrap gap-2">
                 <label for="isin">Ticker Symbol:</label>
-                <input class="form-control w-auto" type="text" name="isin" [(ngModel)]="isin" placeholder="e.g., AAPL">
-                <button class="btn btn-primary" (click)="fetchPrices()">Show Trend</button>
+                <div class="mb-2">
+                    <input class="form-control w-auto" type="text" name="isin" [(ngModel)]="isin"
+                        placeholder="e.g., AAPL">
+                </div>
+                <button class="btn btn-secondary" (click)="fetchPrices()">Show Trend</button>
             </div>
 
             <div *ngIf="show" class="prices-list mt-3">

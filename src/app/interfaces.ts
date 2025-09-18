@@ -17,6 +17,7 @@ export interface InvestForm {
     url: string;
     date?: Date;
     totalPrice?: number;
+    currency?: '£' | 'p' | '$' | 'euro';
     pricePerUnit?: number;
     totalUnits?: number;
     accumulative?: boolean;

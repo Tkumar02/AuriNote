@@ -20,12 +20,20 @@
       </div>
     </div>
     <div>
-      <label for="isin">ISIN:</label>
+      <label for="isin">ISIN / ETF/ Ticker symbol:</label>
       <input type="text" id="isin" [(ngModel)]="userForm.identifier" name="isin" required />
     </div>
     <div>
       <label for="risk">Risk:</label>
       <input type="text" id="risk" [(ngModel)]="userForm.risk" name="risk" />
+    </div>
+    <div class="mb-2">
+      <label>Currrency</label>
+      <select ngModel="currency">
+        <option *ngFor="let c of currencies">
+          {{c}}
+        </option>
+      </select>
     </div>
     <div>
       <label for="totalPrice">Total Price:</label>
