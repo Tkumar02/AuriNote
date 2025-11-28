@@ -8,6 +8,15 @@
         <div style="margin-bottom: 10px; font-weight: 700;">
             {{message}}<br>
         </div>
+        <div>
+        <label for="business">Select Business:</label>
+        <select [(ngModel)]="selectedBusiness">
+            <option *ngFor="let business of businessOptions" [value]="business">
+                {{ business }}
+            </option>
+        </select>
+        <!-- <input type="text" id="business" [(ngModel)]="selectedBusiness" name="business"><br> -->
+        </div>
         <label for="startDate">Start Date:</label>
         <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate"><br>
 

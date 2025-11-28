@@ -22,6 +22,9 @@ export class SummaryComponent {
   dateBox: boolean = false;
   startDate: any;
   endDate: any;
+  allInvoices: any[]=[]
+  businessOptions: any[]=[];
+  selectedBusiness: string = '';
   message: string = 'Summary'
   totalSum: number = 0
   invoiceTotal: number = 0
@@ -30,6 +33,7 @@ export class SummaryComponent {
     private iservice: InvoiceService,
     private afAuth: AngularFireAuth,
     private toast: ToastrService,
+    private afs: AngularFireAuth,
   ) { }
 
   async getCurrentUserEmail() {
@@ -62,7 +66,7 @@ export class SummaryComponent {
       this.message = 'Summary'
 
       this.iservice.getUserInvoices(this.userEmail).subscribe(val => {
-        const allInvoices = val as any[];
+        this.allInvoices = val;
 
         // Convert start and end dates to Date objects for proper comparison
         const start = new Date(startDate);
@@ -71,9 +75,11 @@ export class SummaryComponent {
         // Set the end date's time to the end of the day to include all invoices on that date
         end.setHours(23, 59, 59, 999);
 
-        this.invoices = allInvoices.filter(invoice => {
+        this.invoices = this.allInvoices.filter(invoice => {
           const invoiceDate = new Date(invoice.date);
-          return invoiceDate.getTime() >= start.getTime() && invoiceDate.getTime() <= end.getTime();
+          return invoiceDate.getTime() >= start.getTime() && 
+          invoiceDate.getTime() <= end.getTime()&&
+          invoice.businessName === this.selectedBusiness;
         });
 
         // If no invoices are found within the date range, show the message box
@@ -106,6 +112,19 @@ export class SummaryComponent {
   viewSelectedInvoices() {
     this.showDatebox = true;
     this.showBox = false;
+    this.iservice.getUserInvoices(this.userEmail).subscribe(val => {
+        this.allInvoices = val;
+        console.log(this.allInvoices)
+        this.businessOptions = this.allInvoices.filter(
+          invoice => invoice.businessName == this.selectedBusiness
+        )
+        console.log(this.businessOptions)
+        const businessNames = this.allInvoices.map(invoice => invoice.businessName);
+
+        // Step 2: Remove duplicates by converting the array to a Set and back to an array
+        this.businessOptions = Array.from(new Set(businessNames));
+      }
+    )
   }
 
   setSelectedInvoice(index: number) {
