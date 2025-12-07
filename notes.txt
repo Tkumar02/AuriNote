@@ -20,3 +20,9 @@ service cloud.firestore {
     }
   }
 }
+
+
+instructions to deploy changes:
+firebase use finances
+npm run build
+firebase deploy --only hosting

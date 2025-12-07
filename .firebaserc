@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "projsept-e73a6"
-  }
+    "default": "projsept-e73a6",
+    "finances": "projsept-e73a6"
+  },
+  "targets": {},
+  "etags": {}
 }
