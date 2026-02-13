@@ -47,66 +47,79 @@ export class SummaryComponent {
     this.getCurrentUserEmail()
   }
 
-  viewInvoices() {
-    this.showDatebox = false;
-    this.iservice.getUserInvoices(this.userEmail).subscribe(val => {
-      this.invoices = val
-      if (this.invoices.length < 1) {
-        this.showBox = true
-      }
-      this.invoices.sort((a: { date: string | number | Date; }, b: { date: string | number | Date; }) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    })
-  }
+viewInvoices() {
+  this.showDatebox = false;
+  this.iservice.getUserInvoices(this.userEmail).subscribe(val => {
+    this.invoices = val;
+    
+    // 1. Calculate the total sum of all invoices
+    this.totalSum = this.invoices.reduce((sum: number, invoice: any) => {
+      return sum + (invoice.total || 0); // Added || 0 as a safety check
+    }, 0);
 
-  retrieveInvoices(startDate: any, endDate: any) {
-    // Check if both dates are provided.
-    if (startDate && endDate) {
-      // If dates are provided, clear the message box state.
-      this.dateBox = false;
-      this.message = 'Summary'
+    // 2. Update the invoice count
+    this.invoiceTotal = this.invoices.length;
 
-      this.iservice.getUserInvoices(this.userEmail).subscribe(val => {
-        this.allInvoices = val;
-
-        // Convert start and end dates to Date objects for proper comparison
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-
-        // Set the end date's time to the end of the day to include all invoices on that date
-        end.setHours(23, 59, 59, 999);
-
-        this.invoices = this.allInvoices.filter(invoice => {
-          const invoiceDate = new Date(invoice.date);
-          return invoiceDate.getTime() >= start.getTime() && 
-          invoiceDate.getTime() <= end.getTime()&&
-          invoice.businessName === this.selectedBusiness;
-        });
-
-        // If no invoices are found within the date range, show the message box
-        if (this.invoices.length < 1) {
-          this.dateBox = true;
-        }
-
-        // Calculate the total sum of filtered invoices
-        const totalSum = this.invoices.reduce((sum: number, invoice: any) => {
-          return sum + invoice.total;
-        }, 0);
-        console.log(totalSum);
-        this.totalSum = totalSum
-        this.invoiceTotal = this.invoices.length
-
-        // Sort the filtered invoices
-        this.invoices.sort((a: { date: string | number | Date; }, b: { date: string | number | Date; }) => new Date(b.date).getTime() - new Date(a.date).getTime());
-      });
-    } else {
-      // If a date is missing, clear the invoices and show the message box
-      this.invoices = [];
-      this.dateBox = true;
-      this.message = "Please select a date range";
-      this.totalSum = 0
-      this.invoiceTotal = 0
+    if (this.invoices.length < 1) {
+      this.showBox = true;
     }
+    
+    // Sort by date (newest first)
+    this.invoices.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  });
+}
+
+retrieveInvoices(startDate: any, endDate: any) {
+  // 1. Validation: Ensure dates exist and are in the right order
+  if (!startDate || !endDate) {
+    this.toast.warning("Please select both a start and end date.");
+    this.invoices = [];
+    this.dateBox = true;
+    this.message = "Please select a date range";
+    return;
   }
+
+  if (new Date(startDate) > new Date(endDate)) {
+    this.toast.error("The start date cannot be after the end date.");
+    this.invoices = [];
+    this.totalSum = 0;
+    this.invoiceTotal = 0;
+    this.dateBox = true;
+    return;
+  }
+
+  // 2. Execution: If we got here, dates are valid!
+  this.dateBox = false;
+  this.message = 'Summary';
+
+  this.iservice.getUserInvoices(this.userEmail).subscribe(val => {
+    this.allInvoices = val;
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    end.setHours(23, 59, 59, 999); // Include the full end day
+
+    // 3. Filter by Date AND Business
+    this.invoices = this.allInvoices.filter(invoice => {
+      const invoiceDate = new Date(invoice.date);
+      return invoiceDate.getTime() >= start.getTime() && 
+             invoiceDate.getTime() <= end.getTime() &&
+             invoice.businessName === this.selectedBusiness;
+    });
+
+    // 4. Update UI States
+    this.dateBox = this.invoices.length < 1;
+    this.invoiceTotal = this.invoices.length;
+    
+    // 5. Calculate Totals
+    this.totalSum = this.invoices.reduce((sum: number, invoice: any) => {
+      return sum + (invoice.total || 0);
+    }, 0);
+
+    // 6. Sort by Newest
+    this.invoices.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  });
+}
 
 
   viewSelectedInvoices() {

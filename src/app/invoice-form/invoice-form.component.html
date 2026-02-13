@@ -1,124 +1,149 @@
-<div class="main-container">
-    <h1 class="text-white">Create Invoice</h1>
-    <form class="main-form" (ngSubmit)="submitInvoice()">
-        <div>
-            <h4 class="text-center"> Client</h4> 
-            <select name="clientName" id="clientName" [(ngModel)]="clientName" (change)="onClientChange()">
-                <option *ngFor="let client of details?.clients" [value]="client.clientName">{{client.clientName}}</option>
-            </select>
-        </div>
+<div class="container-fluid py-5 bg-light min-vh-100">
+    <div class="row justify-content-center">
         
+        <div class="col-xl-5 col-lg-6 mb-4">
+            <div class="form-card shadow-sm border-0">
+                <div class="card-header-purple text-white p-4">
+                    <h2 class="mb-0 font-weight-bold">Create Invoice</h2>
+                    <p class="mb-0 small opacity-75">Update details to refresh the preview</p>
+                </div>
+                
+                <form class="card-body p-4 bg-white" (ngSubmit)="submitInvoice()">
+                    <div class="form-group mb-4">
+                        <label class="label-custom">Client Name</label>
+                        <select class="form-control-custom" name="clientName" [(ngModel)]="clientName" (change)="onClientChange()">
+                            <option *ngFor="let client of details?.clients" [value]="client.clientName">{{client.clientName}}</option>
+                        </select>
+                    </div>
 
-        <div class="headingDetails d-flex p-5 align-items-start">
-            
-            <div>
-                <h4>Invoice Number</h4> 
-                <p class="text-italic">Edit as needed</p>
-                <input type="text" id="clientName" [(ngModel)]="invoiceNumber" name="invoiceNumber">
-            </div>
-            <div>
-                <h4>Issue Date</h4>
-                <p class="text-italic">Leave blank for today's date</p>
-                <input type="date" id="issueDate" [(ngModel)]="todayDate" name="issueDate">
-            </div>
-            <div>
-                <h4>Invoice Due Date</h4>
-                <p class="text-italic">Leave blank to default to 14 days</p>
-                <input type="date" id="dueDate" [(ngModel)]="dateDue" name="dueDate">
-            </div>
-        </div>
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <label class="label-custom">Invoice #</label>
+                            <input type="text" class="form-control-custom" [(ngModel)]="invoiceNumber" name="invoiceNumber">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="label-custom">Issue Date</label>
+                            <input type="date" class="form-control-custom" [(ngModel)]="todayDate" name="issueDate">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="label-custom">Due Date</label>
+                            <input type="date" class="form-control-custom" [(ngModel)]="dateDue" name="dueDate">
+                        </div>
+                    </div>
 
-        <br>
-        <div class="d-flex flex-column align-items-center">
-            <h3>Items</h3>
-            <div *ngFor="let item of items let i=index">
-                <label for="description-{{i}}">Description: </label>
-                <input type="text" id="description-{{i}}" name="description-{{i}}" [(ngModel)]="item.description">
-                <label for="quantity-{{i}}">Quantity: </label>
-                <input (change)="calculateTotal()" type="number" id="quantity={{i}}" name="quantity-{{i}}" [(ngModel)]="item.quantity">
-                <label for="price-{{i}}">Price: </label>
-                <input type="number" id="price-{{i}}" name="price-{{i}}" [(ngModel)]="item.price"
-                (change)="calculateTotal()">
-            </div>
-            <button type="button" (click)="addItem()">Add Item</button>
-            <h4> Total: {{total | number:'1.2-2'}}</h4>
-        </div>
+                    <div class="bg-light p-3 rounded mb-4">
+                        <h6 class="font-weight-bold mb-3 text-purple">Invoice Items</h6>
+                        <div *ngFor="let item of items; let i=index" class="row no-gutters mb-2 align-items-end">
+                            <div class="col-6 pr-1">
+                                <label class="tiny-label">Description</label>
+                                <input type="text" class="form-control-custom sm" name="desc-{{i}}" [(ngModel)]="item.description">
+                            </div>
+                            <div class="col-2 pr-1 text-center">
+                                <label class="tiny-label">Qty</label>
+                                <input type="number" class="form-control-custom sm" name="qty-{{i}}" [(ngModel)]="item.quantity" (change)="calculateTotal()">
+                            </div>
+                            <div class="col-3 pr-1">
+                                <label class="tiny-label">Price</label>
+                                <input type="number" class="form-control-custom sm" name="pr-{{i}}" [(ngModel)]="item.price" (change)="calculateTotal()">
+                            </div>
+                            <div class="col-1">
+                                <button type="button" class="btn btn-link text-danger p-0 mb-2" (click)="items.splice(i, 1); calculateTotal()">×</button>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-purple mt-2" (click)="addItem()">+ Add Item</button>
+                    </div>
 
-        <br>
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label class="label-custom">Business</label>
+                            <select class="form-control-custom" name="businesses" [(ngModel)]="selectedBusiness" (change)="onBusinessChange()">
+                                <option [value]="details?.name">{{details?.name}}</option>
+                                <option *ngFor="let business of details?.businesses" [value]="business?.businessName">{{business?.businessName}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="label-custom">Bank</label>
+                            <select class="form-control-custom" name="banks" [(ngModel)]="selectedBank" (change)="onBankChange()">
+                                <option *ngFor="let bank of details?.bankDetails" [value]="bank.bankNickName">{{bank?.bankNickName}}</option>
+                            </select>
+                        </div>
+                    </div>
 
-        <label for="businesses">Select Business: </label>
-        <select name="businesses" id="busniess" [(ngModel)]="selectedBusiness" (change)="onBusinessChange()">
-            <option *ngIf="businesses" value="" selected>Select a business</option> <!-- Default option -->
-            <option *ngIf="!businesses" value="" selected>{{details?.name}}</option>
-            <option name="selectedBusiness" >{{details?.name}}</option>
-            <option name="selectedBusiness" *ngFor="let business of details?.businesses">{{business?.businessName}}</option>
-        </select>
-
-        <label for="Banks">Select Bank: </label>
-        <select name="banks" id="bank" [(ngModel)]="selectedBank" (change)="onBankChange()">
-            <option *ngIf="!oneBank" value=""  selected>Select Bank</option>
-            <option *ngIf="oneBank" value="" selected>{{details?.bankDetails[0].bankNickName}}</option>
-            <option *ngFor="let bank of details?.bankDetails" [value]="bank.bankNickName">{{bank?.bankNickName}}</option>
-        </select>
-
-        
-
-        <label for="notes">Notes: </label>
-        <textarea [(ngModel)]="notes" name="notes" id="notes"></textarea>
-        <button [disabled]="!invoiceNumber || !clientName || !total || !bankName || !selectedBusiness" type="submit">Save Invoice</button>
-    </form>
-
-    <div class="invoicePreview p-5 text-center">
-        <div class="heading">
-            <h2 class="fancy-text text-right">INVOICE</h2>
-            <div>{{businesses && selectedBusiness ? selectedBusiness : details?.name}}</div>
-            <div>{{businesses && selectedBusiness ? selectedAddress : details?.address}}</div>
-        </div>
-        <div>
-            <div class="text-left">Bill to: <p>{{clientName}}</p></div>
-            <div class="text-right">Invoice number: {{invoiceNumber}}</div>
-            <div class="text-right">Issue date: {{todayDate | date}}</div>
-        </div>
-
-
-        <div class="itemPreview d-flex flex-column align-items-center">
-            <div>
-            <table class="table table-striped" *ngIf="items.length>1">
-                <thead>
-                    <tr>
-                        <th>Description</th>
-                        <th>Quantity</th>
-                        <th>Unit Price</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of items">
-                        <td *ngIf="item.description!==''">{{item.description}}</td>
-                        <td *ngIf="item.quantity>0">{{item.quantity}}</td>
-                        <td *ngIf="item.price>0">£{{item.price | number:'1.2-2'}}</td>
-                        <td *ngIf="item.price>0 && item.quantity>0">£{{item.price * item.quantity | number:'1.2-2'}}</td>
-                    </tr>
-                    <tr>
-                        <td class="no-border"></td>
-                        <td class="no-border"></td>
-                        <td class="text-italic">Total Due: </td>
-                        <td class="text-bold">£{{this.total | number:'1.2-2'}}</td>
-                    </tr>
-                </tbody>
-            </table>
+                    <button class="btn btn-purple-block w-100" [disabled]="!invoiceNumber || !clientName || !total || !bankName || !selectedBusiness" type="submit">
+                        Save Invoice
+                    </button>
+                </form>
             </div>
         </div>
-        <div class="text-left">
-            <p>Invoice due by: {{dateDue | date}}</p>
-            <div>Please pay into:</div>
-            <div>{{oneBank ? 'Bank Name: ' + details.bankDetails[0].bankName : 'Bank Name: ' + bankName}}</div>
-            <div>{{oneBank ? 'Sort Code: ' + details.bankDetails[0].sortCode : 'Sort Code: ' + sortCode}}</div>
-            <div>{{oneBank ? 'Account Number: ' + details.bankDetails[0].accountNumber : 'Account Number: ' + accountNumber}}</div>
+
+        <div class="col-xl-5 col-lg-6">
+            <div class="sticky-top" style="top: 20px;">
+                
+                <div id="invoicePreview" class="invoicePreview shadow-lg">
+                    
+                    <div class="d-flex justify-content-between align-items-start mb-5">
+                        <div>
+                            <h1 class="invoice-brand-text mb-0">INVOICE</h1>
+                            <p class="text-muted font-weight-bold">#{{invoiceNumber || '---'}}</p>
+                        </div>
+                        <div class="text-right">
+                            <h5 class="font-weight-bold mb-1">{{selectedBusiness || details?.name}}</h5>
+                            <p class="small text-muted mb-0" style="max-width: 200px;">{{selectedAddress || details?.address}}</p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-5">
+                        <div class="col-6">
+                            <p class="tiny-label mb-1 text-purple">BILL TO</p>
+                            <h5 class="font-weight-bold mb-0">{{clientName || '---'}}</h5>
+                        </div>
+                        <div class="col-6 text-right">
+                            <div class="mb-1"><span class="tiny-label mr-2">DATE:</span> <span class="small">{{todayDate | date}}</span></div>
+                            <div><span class="tiny-label mr-2">DUE:</span> <span class="small font-weight-bold text-danger">{{dateDue | date}}</span></div>
+                        </div>
+                    </div>
+
+                    <table class="table table-borderless mb-4">
+                        <thead class="border-bottom">
+                            <tr>
+                                <th>Description</th>
+                                <th class="text-center">Qty</th>
+                                <th class="text-right">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of items" class="border-bottom-faint">
+                                <td class="py-3">{{item.description}}</td>
+                                <td class="text-center py-3">{{item.quantity}}</td>
+                                <td class="text-right py-3">£{{(item.price * item.quantity) | number:'1.2-2'}}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2" class="text-right font-weight-bold pt-4">TOTAL DUE</td>
+                                <td class="text-right font-weight-bold text-purple pt-4" style="font-size: 1.5rem;">
+                                    £{{total | number:'1.2-2'}}
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <div class="bank-details-footer p-3 rounded mt-auto">
+                        <p class="tiny-label mb-2 text-purple">Payment Details</p>
+                        <div class="small">
+                            <div class="mb-1"><strong>Bank:</strong> {{bankName}}</div>
+                            <div class="mb-1"><strong>Sort Code:</strong> {{sortCode}}</div>
+                            <div><strong>Account Number:</strong> {{accountNumber}}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4 pb-5">
+                    <button type="button" class="btn btn-success btn-lg px-5 shadow" [disabled]="!generate" (click)="generatePDF()">
+                        Generate PDF of invoice
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
-
-    
-    <button [disabled]="!generate" (click)="generatePDF()">Generate PDF of invoice</button>
-    <br>
 </div>

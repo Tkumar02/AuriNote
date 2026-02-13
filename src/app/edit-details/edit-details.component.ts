@@ -17,6 +17,7 @@ export class EditDetailsComponent implements OnInit {
   profile: any;
   profileExists = false;
   profileId: string = '';
+  businessTypes = ['Sole Trader', 'Ltd Company'];
 
   constructor(
     private fb: FormBuilder,
@@ -27,6 +28,7 @@ export class EditDetailsComponent implements OnInit {
     this.editDetailsForm = this.fb.group({
       name: ['', Validators.required],
       address: ['', Validators.required],
+      type:['', Validators.required],
       businesses: this.fb.array([]),  
       bankDetails: this.fb.array([]),
       clients: this.fb.array([])  
@@ -66,7 +68,8 @@ export class EditDetailsComponent implements OnInit {
   addBusiness(business?: any) {
     const businessGroup = this.fb.group({
       businessName: [business ? business.businessName : '', Validators.required],
-      businessAddress: [business ? business.businessAddress : '', Validators.required]
+      businessAddress: [business ? business.businessAddress : '', Validators.required],
+      businessType:[business ? business.type : '', Validators.required]
     });
     this.businesses.push(businessGroup);
   }

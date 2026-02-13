@@ -1,9 +1,26 @@
-<div class="d-flex flex-column text-center p-4 mt-2 main">
-    <h3>Welcome to FinancEase</h3>
+<div class="landing-container d-flex flex-column align-items-center justify-content-center text-center">
+    <div class="hero-content p-5 shadow-lg">
+        <h1 class="display-4 fw-bold">Welcome to <span class="brand-text">FinNexa</span></h1>
+        
+        <p class="lead mb-4">
+            View, manage, and take control of your invoicing needs in one powerful platform.
+        </p>
 
-    <p>FianceEase is a platform to view, manage and take control of your financial needs</p>
-
-    <a routerLink="/home">Invoices</a>
-    <a routerLink="/summary-funds">Investments</a>
-    <a routerLink="/summary-pensions">Pensions</a>
+        <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+            <a routerLink="/home" class="btn btn-primary btn-lg px-4 gap-3">Manage Invoices</a>
+        </div>
+        
+        <div class="mt-5 features-hint">
+            <small class="text-muted">Coming soon to FinNexa: Investments • Pensions • Wealth Tracking</small>
+        </div>
+        <div class="ltd-link-box p-3 rounded mt-4">
+            <p class="small mb-2 text-muted font-weight-bold">Managing a Limited Company?</p>
+            <a href="https://ltd-admin.web.app" 
+            target="_blank" 
+            class="btn" 
+            style="background-color: #6a1b9a; color: white; border-radius: 8px; font-weight: 600; font-size: 0.85rem;">
+            Visit Ltd Admin App <i class="fa fa-external-link-alt ml-1"></i>
+            </a>
+        </div>
+    </div>
 </div>

@@ -1,127 +1,85 @@
-/* Style the form container */
-form {
-    max-width: 600px;
+/* Container styling */
+.settings-form {
+    max-width: 900px;
     margin: 0 auto;
-    padding: 20px;
-    background-color: lightblue;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Style the form fields */
-  form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  form input[type="text"],
-  form input[type="password"],
-  form input[type="email"],
-  form input[type="number"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-    box-sizing: border-box;
-  }
-  
-  form input:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  }
-  
-  /* Style the form buttons */
-  button[type="submit"],
-  button[type="button"] {
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  
-  /* Add spacing between the buttons */
-  button[type="button"] {
-    margin-top: 10px;
-    margin-bottom: 20px;
-  }
-  
-  /* Style for form sections like bank details */
-  fieldset {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-  }
-  
-  legend {
-    font-size: 16px;
-    font-weight: bold;
-    color: #007bff;
-    padding: 0 5px;
-  }
-  
-  /* Style remove button inside dynamic sections */
-  .remove-btn {
-    background-color: #dc3545;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-top: 10px;
-  }
-  
-  .remove-btn:hover {
-    background-color: #c82333;
-  }
-  
-  /* Style for the Add Another Bank button */
-  .add-bank-btn {
-    background-color: #28a745;
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .add-bank-btn:hover {
-    background-color: #218838;
-  }
+}
 
-  .submit-button {
-    background-color: #007bff;
-  }
-  
-  /* Responsive design for smaller screens */
-  @media (max-width: 600px) {
-    form {
-      padding: 15px;
-    }
-  
-    button[type="submit"],
-    button[type="button"] {
-      width: 100%;
-      padding: 12px;
-      font-size: 14px;
-    }
-  
-    form input[type="text"],
-    form input[type="password"],
-    form input[type="email"],
-    form input[type="number"] {
-      padding: 12px;
-    }
-  }
-  
-  
+/* Card Styling */
+.form-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.card-header-purple {
+    background: #6a1b9a;
+    color: white;
+    padding: 15px 20px;
+}
+
+.text-purple { color: #6a1b9a !important; }
+
+/* Custom Inputs */
+.label-custom {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #495057;
+    margin-bottom: 8px;
+}
+
+.small-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #8898aa;
+    text-transform: uppercase;
+}
+
+.form-control-custom {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e1e5eb;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+}
+
+.form-control-custom:focus {
+    border-color: #6a1b9a;
+    outline: none;
+    background-color: #fdfbff;
+}
+
+/* Dynamic Rows */
+.dynamic-row, .bank-row {
+    background: #f8f9fe;
+    border-radius: 10px;
+    border: 1px solid #edf2f9;
+}
+
+/* Buttons */
+.btn-purple-lg {
+    background: #6a1b9a;
+    color: white;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-weight: 700;
+    border: none;
+    font-size: 1.1rem;
+}
+
+.btn-remove {
+    background: #ff7675;
+    color: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    line-height: 1;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-remove:hover {
+    background: #d63031;
+}

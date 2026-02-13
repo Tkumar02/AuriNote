@@ -1,155 +1,36 @@
+.bg-light { background-color: #f8f9fe !important; }
 
-.main-container {
-    background-color: #391328;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    margin: auto;
-}
+/* Builder Form */
+.form-card { border-radius: 12px; overflow: hidden; border: none; }
+.card-header-purple { background: linear-gradient(135deg, #6a1b9a 0%, #4a148c 100%); }
+.label-custom { font-weight: 700; font-size: 0.8rem; color: #555; display: block; }
+.tiny-label { font-size: 0.65rem; font-weight: 800; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+.form-control-custom { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.9rem; }
+.form-control-custom.sm { padding: 4px 8px; font-size: 0.8rem; }
 
-
-.main-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 90%;
-    padding: 20px;
-    background-color: #c898a6;
-    border-radius: 10px;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-
-.main-form input, .main-form textarea, .main-form select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 8px;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 20px;
-}
-
-button:disabled {
-    background-color: #cccccc;
-}
-
-button:hover:not(:disabled) {
-    background-color: #0056b3;
-}
-
-
+/* Invoice Preview (The Working Class) */
 .invoicePreview {
     background-color: #ffffff;
+    width: 100%;
+    padding: 40px;
+    border-radius: 2px;
+    min-height: 800px;
     display: flex;
-    width: 90%; 
     flex-direction: column;
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 30px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    justify-content: center;
 }
 
+.invoice-brand-text { font-weight: 900; letter-spacing: 2px; color: #1e1e2d; }
+.text-purple { color: #6a1b9a !important; }
 
-.table-striped {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px auto;
+.bank-details-footer {
+    background: #f8f9fe;
+    border: 1px dashed #e1e5eb;
 }
 
-.table-striped th, .table-striped td {
-    padding: 12px;
-    border: 1px solid #cccccc;
-    text-align: left;
+.border-bottom-faint {
+    border-bottom: 1px solid #f1f1f1;
 }
 
-.table-striped th {
-    background-color: #f1f1f1;
-    font-weight: bold;
-}
-
-.table-striped td {
-    background-color: #ffffff;
-}
-
-.table-striped td:empty {
-    border: none; 
-}
-
-.table-striped tr:nth-child(even) td {
-    background-color: #f9f9f9; 
-}
-
-
-@media screen and (max-width: 768px) {
-
-    .table-striped {
-        display: block;
-        overflow-x: auto; 
-        width: 100%;
-    }
-    
-    .table-striped th, .table-striped td {
-        padding: 8px;
-        font-size: 14px; 
-    }
-
-}
-
-
-.client, .heading {
-    padding: 10px;
-    background-color: #ffffff;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-
-.client div {
-    margin-bottom: 8px;
-    font-weight: 500;
-}
-
-
-.headingDetails {
-    display: flex;
-    gap: 38px; 
-    justify-content: space-between;
-    padding: 20px 0;
-    width: 100%;
-    flex-wrap: wrap; 
-}
-
-.fancy-text {
-    font-family: 'Lobster', cursive;
-}
-
-.justify-text {
-    text-align: space-between;
-}
-
-.text-italic {
-    font-style: italic;
-}
-
-.text-bold {
-    font-weight: bold;
-}
-
-
-
-
-
+/* Custom Buttons */
+.btn-purple-block { background: #6a1b9a; color: white; padding: 12px; border-radius: 8px; font-weight: 600; border: none; }
+.btn-outline-purple { border: 1px solid #6a1b9a; color: #6a1b9a; font-weight: 600; }

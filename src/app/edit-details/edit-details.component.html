@@ -1,86 +1,110 @@
-<form [formGroup]="editDetailsForm" (ngSubmit)="onSubmit()">
-    <div>
-      <label for="name">Name:</label>
-      <input [value]="profileExists ? profile.name : ''" type="text" id="name" formControlName="name" required>
-    </div>
-  
-    <div>
-      <label for="address">Home Address:</label>
-      <input [value]="profileExists ? profile.address : ''" type="text" id="address" formControlName="address" required>
-    </div>
-
-    <div *ngIf="clients.length === 0">
-      <p>No client details available. Click "Add Another Client" to start adding.</p>
-  </div>
-
-  <div class="client" *ngIf="clients.length>0" formArrayName="clients">
-      <div *ngFor="let client of clients.controls; let i=index" [formGroupName]="i">
-          <fieldset>
-              <legend>Client Name {{i + 1}}</legend>
-
-              <label for="clientName{{i}}">Client Name: </label>
-              <input type="text" id="clientName{{i}}" formControlName="clientName" required>
-
-              <label for="clientAddress{{i}}">Client Address: </label>
-              <input type="text" id="clientAddress{{i}}" formControlName="clientAddress" required>
-
-              <button type="button" class="remove-btn" (click)="removeClient(i)">Remove</button>
-          </fieldset>
-      </div>
-  </div>
-  <button type="button" class="add-bank-btn" (click)="addClient()">Add Another Client</button>
-  
-
-    <div *ngIf="businesses.length === 0">
-        <p>No business details available. Click "Add Another Business" to start adding.</p>
-    </div>
-
-    <div class="business" *ngIf="businesses.length>0" formArrayName="businesses">
-        <div *ngFor="let business of businesses.controls; let i=index" [formGroupName]="i">
-            <fieldset>
-                <legend>Business Name {{i + 1}}</legend>
-
-                <label for="businessName{{i}}">Business Name: </label>
-                <input type="text" id="businessName{{i}}" formControlName="businessName" required>
-
-                <label for="businessAddress{{i}}">Business Address: </label>
-                <input type="text" id="businessAddress{{i}}" formControlName="businessAddress" required>
-
-                <button type="button" class="remove-btn" (click)="removeBusiness(i)">Remove</button>
-            </fieldset>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <form [formGroup]="editDetailsForm" (ngSubmit)="onSubmit()" class="settings-form">
+        
+        <div class="form-card shadow-sm mb-4">
+          <div class="card-header-purple">
+            <h5 class="mb-0"><i class="fa fa-user-circle mr-2"></i>Personal Profile</h5>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label class="label-custom">Full Name</label>
+              <input [value]="profileExists ? profile.name : ''" type="text" class="form-control-custom" formControlName="name" placeholder="Enter your name">
+            </div>
+            <div class="form-group mb-0">
+              <label class="label-custom">Home Address</label>
+              <input [value]="profileExists ? profile.address : ''" type="text" class="form-control-custom" formControlName="address" placeholder="123 Main St, London">
+            </div>
+          </div>
         </div>
-    </div>
-    <button type="button" class="add-bank-btn" (click)="addBusiness()">Add Another Business</button>
-    
-    <div *ngIf="bankDetails.length === 0">
-        <p>No bank details available. Click "Add Another Bank" to start adding.</p>
-    </div>
 
-    
-    <div class="bank" *ngIf="bankDetails.length > 0" formArrayName="bankDetails">
-      <div *ngFor="let bank of bankDetails.controls; let i = index" [formGroupName]="i">
-        <fieldset>
-          <legend>Bank Details {{i + 1}}</legend>
-          
-          <label for="bankNickName{{i}}">Nickname for bank:</label>
-          <input type="text" id="nickname{{i}}" formControlName="bankNickName" required>
+        <div class="form-card shadow-sm mb-4">
+          <div class="card-header-purple d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="fa fa-users mr-2"></i>Clients</h5>
+            <button type="button" class="btn btn-sm btn-light text-purple font-weight-bold" (click)="addClient()">+ Add Client</button>
+          </div>
+          <div class="card-body">
+            <div *ngIf="clients.length === 0" class="text-center py-3 text-muted italic">
+              <small>No clients added yet.</small>
+            </div>
+            <div formArrayName="clients">
+              <div *ngFor="let client of clients.controls; let i=index" [formGroupName]="i" class="dynamic-row mb-3 p-3 rounded">
+                <div class="row">
+                  <div class="col-md-5">
+                    <input type="text" class="form-control-custom" formControlName="clientName" placeholder="Client Name">
+                  </div>
+                  <div class="col-md-5">
+                    <input type="text" class="form-control-custom" formControlName="clientAddress" placeholder="Address">
+                  </div>
+                  <div class="col-md-2 text-right">
+                    <button type="button" class="btn-remove" (click)="removeClient(i)">×</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-          <label for="bankName{{i}}">Bank Name:</label>
-          <input type="text" id="bankName{{i}}" formControlName="bankName" required>
-  
-          <label for="accountNumber{{i}}">Account Number:</label>
-          <input type="text" id="accountNumber{{i}}" formControlName="accountNumber" required>
-  
-          <label for="sortCode{{i}}">Sort Code:</label>
-          <input type="text" id="sortCode{{i}}" formControlName="sortCode" required>
-  
-          <button type="button" class="remove-btn" (click)="removeBank(i)">Remove</button>
-        </fieldset>
-      </div>
+        <div class="form-card shadow-sm mb-4">
+          <div class="card-header-purple d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="fa fa-briefcase mr-2"></i>Your Companies</h5>
+            <button type="button" class="btn btn-sm btn-light text-purple font-weight-bold" (click)="addBusiness()">+ Add Company</button>
+          </div>
+          <div class="card-body" formArrayName="businesses">
+            <div *ngIf="businesses.length === 0" class="text-center py-3 text-muted">
+                <small>No company details available.</small>
+            </div>
+            <div *ngFor="let business of businesses.controls; let i=index" [formGroupName]="i" class="dynamic-row mb-3 p-3">
+              <div class="row mb-2">
+                <div class="col-md-6">
+                  <label class="small-label">Company Name</label>
+                  <input type="text" class="form-control-custom" formControlName="businessName">
+                </div>
+                <div class="col-md-6">
+                  <label class="small-label">Company Type</label>
+                  <select class="form-control-custom" formControlName="businessType">
+                    <option value="" disabled>Select type...</option>
+                    <option *ngFor="let type of businessTypes" [value]="type">{{ type }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-10">
+                  <label class="small-label">Company Address</label>
+                  <input type="text" class="form-control-custom" formControlName="businessAddress">
+                </div>
+                <div class="col-md-2 pt-4">
+                  <button type="button" class="btn btn-outline-danger btn-block border-0" (click)="removeBusiness(i)">Remove</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-card shadow-sm mb-5">
+          <div class="card-header-purple d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="fa fa-university mr-2"></i>Bank Accounts</h5>
+            <button type="button" class="btn btn-sm btn-light text-purple font-weight-bold" (click)="addBank()">+ Add Bank</button>
+          </div>
+          <div class="card-body" formArrayName="bankDetails">
+            <div *ngFor="let bank of bankDetails.controls; let i = index" [formGroupName]="i" class="bank-row mb-4 p-3 shadow-xs">
+              <div class="row">
+                <div class="col-md-6 mb-2"><input type="text" class="form-control-custom" formControlName="bankNickName" placeholder="Bank Nickname (e.g. Personal)"></div>
+                <div class="col-md-6 mb-2"><input type="text" class="form-control-custom" formControlName="bankName" placeholder="Bank Name"></div>
+                <div class="col-md-5"><input type="text" class="form-control-custom" formControlName="accountNumber" placeholder="Account Number"></div>
+                <div class="col-md-5"><input type="text" class="form-control-custom" formControlName="sortCode" placeholder="Sort Code"></div>
+                <div class="col-md-2"><button type="button" class="btn-remove" (click)="removeBank(i)">×</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center pb-5">
+          <button class="btn btn-purple-lg px-5 shadow" type="submit">Save All Changes</button>
+        </div>
+
+      </form>
     </div>
-  
-    <button type="button" class="add-bank-btn" (click)="addBank()">Add Another Bank</button>
-    <br>
-    <button class="submit-button" type="submit">Submit</button>
-  </form>
-  
+  </div>
+</div>

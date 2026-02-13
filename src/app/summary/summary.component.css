@@ -1,87 +1,47 @@
-/* Main Container Styling */
-.main-container {
-    background-color: #f9f9f9; /* Light background for better contrast */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 90%; /* Use a percentage width to be responsive */
-    margin: 0 auto; /* Center container */
+/* Layout overrides to ensure Full Width usage */
+.container-fluid {
+    width: 100% !important;
+    padding-left: 0;
+    padding-right: 0;
 }
 
-/* Button Styling */
-.btn-view {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
+.dashboard-wrapper, .summary-wrapper {
+    background-color: #f8f9fa;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* Home Page Action Cards */
+.action-card {
     cursor: pointer;
-    margin-bottom: 20px; 
-}
-
-.btn-delete {
-    background-color: red;
-    color: white;
-    padding: 10px 20px;
+    transition: all 0.3s ease;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 20px; 
+}
+.action-card:hover { transform: translateY(-10px); }
+.action-card.highlight { background: #6a1b9a; color: white; }
+.action-card.highlight .text-muted { color: #e1bee7 !important; }
+
+.icon-circle {
+    width: 60px; height: 60px; line-height: 60px;
+    border-radius: 50%; font-size: 24px; margin: 0 auto;
+}
+.bg-white-20 { background: rgba(255,255,255,0.2); }
+
+/* Table Row Coloring */
+.row-paid { background-color: #e8f5e9 !important; } /* Very soft green */
+.row-pending { background-color: #fffde7 !important; } /* Very soft gold */
+
+.table td { border-top: 1px solid rgba(0,0,0,0.05); }
+
+/* Ensure the cards don't look narrow on big screens */
+.card {
+    width: 100% !important;
+    max-width: 100% !important;
 }
 
-.btn-view:hover {
-    background-color: #0056b3; 
+.display-4 { font-size: 2.5rem; }
+
+@media (min-width: 1200px) {
+    .card-body { padding: 3rem; }
 }
 
-.btn-delete:hover {
-    background-color: darkred;
-}
-
-/* No Invoices Message */
-.no-invoices {
-    color: #888; /* Grey text for visibility */
-    text-align: center; /* Center alignment */
-}
-
-/* Table Styling */
-.table-striped {
-    width: 100%; /* Full width for tables */
-    border-collapse: collapse;
-    margin-top: 20px; /* Space above the table */
-}
-
-.table-striped th, .table-striped td {
-    padding: 10px;
-    border: 1px solid #ccc; /* Soft border for table */
-    text-align: left; /* Left align text */
-}
-
-/* Responsive Adjustments */
-@media screen and (max-width: 768px) {
-    /* Stack table headers for smaller screens */
-    .table-striped th, .table-striped td {
-        display: block; /* Change display to block for stacking */
-        width: 100%; /* Full width for blocks */
-    }
-    
-    /* Hide unnecessary columns on mobile */
-    .table-striped th:nth-child(n+5), .table-striped td:nth-child(n+5) {
-        display: none; /* Hide columns for Confirm Payment, Edit Payment */
-    }
-    
-    /* Adjust input fields and buttons */
-    .partial-payment-input, .notes-textarea {
-        width: 100%; /* Full width for inputs */
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin-top: 5px; /* Spacing above inputs */
-        box-sizing: border-box; /* Ensure padding is included in width */
-    }
-
-    .save-button {
-        width: 100%; /* Full width for save button */
-        margin-top: 10px; /* Spacing above the button */
-        padding: 10px; /* Larger padding */
-    }
-}

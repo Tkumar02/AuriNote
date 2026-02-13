@@ -3,6 +3,14 @@
     "default": "projsept-e73a6",
     "finances": "projsept-e73a6"
   },
-  "targets": {},
+  "targets": {
+    "projsept-e73a6": {
+      "hosting": {
+        "newFinances": [
+          "finnexa-invoices"
+        ]
+      }
+    }
+  },
   "etags": {}
 }
