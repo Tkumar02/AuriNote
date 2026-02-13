@@ -1,17 +1,49 @@
-<div class="login-container">
-    <h2>Login</h2>
-    <form (submit)="login()" class="login-form">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="text" id="email" [(ngModel)]="email" name="email" required />
-      </div>
-  
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" [(ngModel)]="password" name="password" required />
-      </div>
-  
-      <button type="submit" class="login-button">Login</button>
-    </form>
-  </div>
-  
+<div class="login-wrapper d-flex align-items-center justify-content-center">
+    <div class="login-card shadow-lg border-0">
+        <div class="card-header-purple text-center p-5 text-white">
+            <h1 class="font-weight-bold mb-0">FinNexa</h1>
+            <p class="small opacity-75 text-uppercase letter-spacing-2">Invoice Management</p>
+        </div>
+
+        <div class="card-body p-5 bg-white">
+            <h2 class="text-center h4 font-weight-bold mb-4">Welcome Back</h2>
+            
+            <form (submit)="login()" class="login-form">
+                <div class="form-group mb-4">
+                    <label class="label-custom" for="email">Email Address</label>
+                    <input type="email" 
+                           id="email" 
+                           [(ngModel)]="email" 
+                           name="email" 
+                           class="form-control-custom" 
+                           placeholder="name@company.com"
+                           required />
+                </div>
+            
+                <div class="form-group mb-4">
+                    <label class="label-custom" for="password">Password</label>
+                    <input type="password" 
+                           id="password" 
+                           [(ngModel)]="password" 
+                           name="password" 
+                           class="form-control-custom" 
+                           placeholder="••••••••"
+                           required />
+                </div>
+            
+                <button type="submit" class="btn-purple-block w-100 shadow-sm mt-2">
+                    Sign In
+                </button>
+                
+                <div class="text-center mt-4">
+                    <a href="#" class="text-muted small">Forgot password?</a>
+                </div>
+
+                <div class="text-center mt-4">
+                    <span class="text-muted small">Not yet registered? </span>
+                    <a routerLink="/signup" class="text-purple small font-weight-bold">Sign up</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

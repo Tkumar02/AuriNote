@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -10,30 +10,39 @@ import { Router } from '@angular/router'
 })
 export class SignUpComponent {
   signUpForm: FormGroup;
-  errorMessage: string | null=null;
-  password = '';
-  confirmPassword = '';
-  
+  errorMessage: string | null = null;
+
   constructor(
     private fb: FormBuilder, 
-    private af:AngularFireAuth, 
-    private router:Router
+    private af: AngularFireAuth, 
+    private router: Router
   ) {
-      this.signUpForm = this.fb.group({
-        email:['',[Validators.required, Validators.email]],
-        password:['',[Validators.required, Validators.minLength(6)]]
-      })
-    }
-  
-    async onSignUp(){
-      if(this.signUpForm?.valid){
-        const {email,password} = this.signUpForm?.value;
-        try{
-          await this.af.createUserWithEmailAndPassword(email,password);
-          this.router.navigate(['edit']);
-        } catch (error:any) {
-          this.errorMessage = error.message;
-        }
+    this.signUpForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]]
+    }, { 
+      // This is the custom validator that checks if fields match
+      validators: this.passwordMatchValidator 
+    });
+  }
+
+  passwordMatchValidator(g: FormGroup) {
+    const password = g.get('password')?.value;
+    const confirm = g.get('confirmPassword')?.value;
+    // If they don't match, return 'mismatch' error
+    return password === confirm ? null : { mismatch: true };
+  }
+
+  async onSignUp() {
+    if (this.signUpForm.valid) {
+      const { email, password } = this.signUpForm.value;
+      try {
+        await this.af.createUserWithEmailAndPassword(email, password);
+        this.router.navigate(['edit']);
+      } catch (error: any) {
+        this.errorMessage = error.message;
       }
     }
+  }
 }

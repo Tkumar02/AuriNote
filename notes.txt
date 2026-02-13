@@ -24,10 +24,5 @@ service cloud.firestore {
 
 NEW INSTRUCTIONS TO DEPLOY CHANGES 
 npm run build
-firebase deploy --only hosting:finnexa-invoices
-
-
-OLD instructions to deploy changes:
 firebase use finances
-npm run build
-firebase deploy --only hosting
+firebase deploy --only hosting:newFinances

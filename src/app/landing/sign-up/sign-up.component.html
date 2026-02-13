@@ -1,44 +1,51 @@
-<div class="sign-up-container">
-    <h2>Sign Up</h2>
-  
-    <form [formGroup]="signUpForm" (ngSubmit)="onSignUp()">
-      <div>
-        <label for="email">Email:</label>
-        <input id="email" formControlName="email" type="email" placeholder="Enter your email">
-        <div *ngIf="signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched">
-          <small *ngIf="signUpForm.get('email')?.errors?.['required']">Email is required.</small>
-          <small *ngIf="signUpForm.get('email')?.errors?.['email']">Invalid email format.</small>
+<div class="login-wrapper d-flex align-items-center justify-content-center py-5">
+    <div class="login-card shadow-lg border-0">
+        <div class="card-header-purple text-center p-4 text-white">
+            <h1 class="font-weight-bold mb-0">FinNexa</h1>
+            <p class="small opacity-75 text-uppercase letter-spacing-2">Create Your Account</p>
         </div>
-      </div>
-  
-      <div>
-        <label for="password">Password:</label>
-        <input 
-        id="password" 
-        formControlName="password" 
-        type="password" 
-        [(ngModel)]='password'
-        placeholder="Enter your password">
-        <label for="password">Confirm Password:</label>
-        <input 
-        id="confirmPassword" 
-        formControlName="password" 
-        type="password" 
-        [(ngModel)]="confirmPassword"
-        placeholder="Confirm your password">
-        <div *ngIf="password!=confirmPassword || (signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched)">
-          <small *ngIf="signUpForm.get('password')?.errors?.['required']">Password is required.</small>
-          <small *ngIf="signUpForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters.</small>
-          <br>
-          <small *ngIf="password!=confirmPassword">Passwords do not match.</small>
+
+        <div class="card-body p-5 bg-white">
+            <form [formGroup]="signUpForm" (ngSubmit)="onSignUp()">
+                
+                <div class="form-group mb-3">
+                    <label class="label-custom">Email Address</label>
+                    <input formControlName="email" type="email" class="form-control-custom" placeholder="name@company.com">
+                    <div class="invalid-feedback-custom" *ngIf="signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched">
+                        <small>Please enter a valid email.</small>
+                    </div>
+                </div>
+            
+                <div class="form-group mb-3">
+                    <label class="label-custom">Password</label>
+                    <input formControlName="password" type="password" class="form-control-custom" placeholder="Min. 6 characters">
+                    <div class="invalid-feedback-custom" *ngIf="signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched">
+                        <small>Password must be at least 6 characters.</small>
+                    </div>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label class="label-custom">Confirm Password</label>
+                    <input formControlName="confirmPassword" type="password" class="form-control-custom" placeholder="Repeat password">
+                    
+                    <div class="invalid-feedback-custom" *ngIf="signUpForm.hasError('mismatch') && signUpForm.get('confirmPassword')?.touched">
+                        <small>Passwords do not match.</small>
+                    </div>
+                </div>
+            
+                <button type="submit" class="btn-purple-block w-100 shadow-sm" [disabled]="signUpForm.invalid">
+                    Sign Up
+                </button>
+
+                <div *ngIf="errorMessage" class="alert alert-danger mt-3 small p-2 text-center">
+                    {{ errorMessage }}
+                </div>
+                
+                <div class="text-center mt-4">
+                    <span class="text-muted small">Already have an account? </span>
+                    <a routerLink="/login" class="text-purple small font-weight-bold">Log In</a>
+                </div>
+            </form>
         </div>
-      </div>
-  
-      <button type="submit" [disabled]="signUpForm.invalid || password!=confirmPassword">Sign Up</button>
-  
-      <div *ngIf="errorMessage" class="error-message">
-        {{ errorMessage }}
-      </div>
-    </form>
-  </div>
-  
+    </div>
+</div>

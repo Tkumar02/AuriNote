@@ -1,45 +1,75 @@
-.sign-up-container {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  h2 {
-    text-align: center;
-  }
-  
-  label {
-    display: block;
+/* Reuse the wrapper and card styles from login */
+.login-wrapper {
+    min-height: 100vh;
+    background: #f8f9fe;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 450px;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.card-header-purple {
+    background: linear-gradient(135deg, #6a1b9a 0%, #4a148c 100%);
+}
+
+.label-custom {
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: #555;
     margin-bottom: 5px;
-  }
-  
-  input {
+    display: block;
+}
+
+.form-control-custom {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: 0.3s;
+}
+
+.form-control-custom:focus {
+    border-color: #6a1b9a;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(106, 27, 154, 0.1);
+}
+
+/* Validation Styling */
+.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+.invalid-feedback-custom {
+    color: #dc3545;
+    font-size: 0.75rem;
+    margin-top: 5px;
+    font-weight: 600;
+}
+
+.btn-purple-block {
+    background: #6a1b9a;
     color: white;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
     border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:disabled {
-    background-color: #ccc;
-  }
-  
-  .error-message {
-    color: red;
-    text-align: center;
-  }
-  
+    transition: 0.3s;
+}
+
+.btn-purple-block:hover:not(:disabled) {
+    background: #4a148c;
+    transform: translateY(-1px);
+}
+
+.btn-purple-block:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.text-purple {
+    color: #6a1b9a !important;
+}
