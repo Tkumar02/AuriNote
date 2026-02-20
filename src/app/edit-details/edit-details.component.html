@@ -57,14 +57,28 @@
             </div>
             <div *ngFor="let business of businesses.controls; let i=index" [formGroupName]="i" class="dynamic-row mb-3 p-3">
               <div class="row mb-2">
-                <div class="col-md-6">
-                  <label class="small-label">Company Name</label>
-                  <input type="text" class="form-control-custom" formControlName="businessName">
-                </div>
+<div class="col-md-6">
+  <div class="d-flex justify-content-between align-items-center mb-1">
+    <label class="small-label mb-0">Company Name</label>
+    <span *ngIf="isSynced(i)" class="badge badge-success px-2 py-1" style="font-size: 8px; border-radius: 4px;">
+      <i class="fa fa-link mr-1"></i>Synced
+    </span>
+  </div>
+  
+  <input type="text" 
+         class="form-control-custom" 
+         formControlName="businessName" 
+         [readonly]="isSynced(i)"
+         [style.backgroundColor]="isSynced(i) ? '#f8f9fa' : 'white'">
+  
+  <input type="hidden" formControlName="companyId">
+</div>
                 <div class="col-md-6">
                   <label class="small-label">Company Type</label>
-                  <select class="form-control-custom" formControlName="businessType">
-                    <option value="" disabled>Select type...</option>
+                  <select class="form-control-custom" 
+                          formControlName="businessType"
+                          [attr.disabled]="isSynced(i) ? true : null"> 
+                          <option value="" disabled>Select type...</option>
                     <option *ngFor="let type of businessTypes" [value]="type">{{ type }}</option>
                   </select>
                 </div>
@@ -72,7 +86,11 @@
               <div class="row">
                 <div class="col-md-10">
                   <label class="small-label">Company Address</label>
-                  <input type="text" class="form-control-custom" formControlName="businessAddress">
+                  <input type="text" 
+                        class="form-control-custom" 
+                        formControlName="businessAddress"
+                        [readonly]="isSynced(i)"
+                        [style.backgroundColor]="isSynced(i) ? '#f8f9fa' : 'white'">                
                 </div>
                 <div class="col-md-2 pt-4">
                   <button type="button" class="btn btn-outline-danger btn-block border-0" (click)="removeBusiness(i)">Remove</button>

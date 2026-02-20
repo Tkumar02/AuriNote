@@ -64,13 +64,27 @@ export class EditDetailsComponent implements OnInit {
     this.bankDetails.push(bankGroup);
   }
 
+  // Helper method
+  isSynced(index: number): boolean {
+    const control = this.businesses.controls[index];
+    return control ? !!control.get('companyId')?.value : false;
+  }
+
   // Add a new business form group to 'businesses' FormArray
   addBusiness(business?: any) {
+    const isSynced = !!(business && business.companyId);
+
     const businessGroup = this.fb.group({
       businessName: [business ? business.businessName : '', Validators.required],
       businessAddress: [business ? business.businessAddress : '', Validators.required],
-      businessType:[business ? business.type : '', Validators.required]
+      // Set the state directly in the control definition
+      businessType: [{ 
+        value: business ? (business.businessType || business.type) : 'Sole Trader', 
+        disabled: isSynced 
+      }, Validators.required],
+      companyId: [business?.companyId || null]
     });
+
     this.businesses.push(businessGroup);
   }
 
@@ -139,7 +153,7 @@ export class EditDetailsComponent implements OnInit {
   onSubmit() {
     const profileData = {
       email: this.userEmail,
-      ...this.editDetailsForm.value
+      ...this.editDetailsForm.getRawValue()
     };
 
     if(this.profileId && this.profileExists){

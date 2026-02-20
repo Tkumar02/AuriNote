@@ -1,10 +1,29 @@
 <div class="home-container p-4">
+  <div *ngIf="isProfileIncomplete" 
+       class="alert shadow-sm mb-4" 
+       routerLink="/edit"
+       style="background: #fff3cd; border-left: 5px solid #ffc107; cursor: pointer; border-radius: 10px;">
+    <div class="d-flex align-items-center py-2">
+      <div class="mr-3 px-2">
+        <span style="font-size: 1.5rem;">⚠️</span>
+      </div>
+      <div>
+        <h6 class="mb-0 font-weight-bold" style="color: #856404;">Complete Your Profile</h6>
+        <p class="mb-0 small text-muted">You need to add your personal name, client and bank details before you can create invoices.</p>
+      </div>
+      <div class="ml-auto">
+        <i class="fa fa-chevron-right text-muted"></i>
+      </div>
+    </div>
+  </div>
   <div class="stats-header shadow-sm">
     <div class="stat-item">
       <span class="stat-label">Total Invoiced</span>
       <h2 class="stat-value">£{{ totalAmount | number:'1.2-2' }}</h2>
     </div>
+    
     <div class="stat-divider"></div>
+    
     <div class="stat-item">
       <span class="stat-label">Completed Payments</span>
       <h2 class="stat-value text-success">£{{ paidAmount | number:'1.2-2' }}</h2>
@@ -12,22 +31,22 @@
   </div>
 
   <div class="card-grid">
-    <div class="menu-card" routerLink="/summary">
-      <div class="card-icon">📊</div>
-      <h2>Summary</h2>
-      <p>View trends and reports</p>
+    <div class="menu-card shadow-sm" routerLink="/summary">
+      <div class="card-icon ledger-icon">📑</div>      
+      <h2 class="h5 font-weight-bold">Summary</h2>
+      <p class="small text-muted mb-0">View trends and reports</p>
     </div>
 
-    <div class="menu-card highlight" routerLink="/create">
-      <div class="card-icon">➕</div>
-      <h2>Create Invoice</h2>
-      <p>Generate new billing</p>
+    <div class="menu-card highlight shadow" routerLink="/create">
+      <div class="card-icon text-white">➕</div>
+      <h2 class="h5 font-weight-bold text-white">Create Invoice</h2>
+      <p class="small text-white opacity-75 mb-0">Generate new billing</p>
     </div>
 
-    <div class="menu-card" routerLink="/edit">
-      <div class="card-icon">⚙️</div>
-      <h2>Edit Details</h2>
-      <p>Update business info</p>
+    <div class="menu-card shadow-sm" routerLink="/edit">
+      <div class="card-icon text-purple">⚙️</div>
+      <h2 class="h5 font-weight-bold">Edit Details</h2>
+      <p class="small text-muted mb-0">Update business info</p>
     </div>
   </div>
 </div>
